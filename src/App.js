@@ -1,15 +1,8 @@
 import React from "react";
-
-const stl = {
-    h1: {
-        "textAlign": "center"
-    }
-}
+import NavbarContainer from "./components/NavbarContainer";
 
 const App = () => ( 
-    <div>
-        <h1 style={stl.h1}>Feedbak</h1>
-    </div>
+   <NavbarContainer/>
 );
 
-export default App;
+export default App; 
