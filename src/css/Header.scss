@@ -1,0 +1,28 @@
+.header {
+    min-height: 20vh;
+    text-align: center;
+}
+
+.fill-dark {
+    background-color: darkslategrey;
+}
+
+.search-wrapper {
+    text-align: center;
+}
+
+.search-bar {
+    max-width: 80vw;
+    width: 400px;
+}
+
+form {
+    display: inline-block;
+}
+
+input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: rgb(206, 212, 218) !important;
+
+}
