@@ -7,13 +7,11 @@ import { Form } from "react-bootstrap";
 const SearchBar = () => {
   return (
     <>
-      <div className="">
         <Form className="search-input">
           <Form.Group className="my-3" controlId="searchBar">
             <Form.Control type="text" placeholder="Search our partners" />
           </Form.Group>
         </Form>
-      </div>
     </>
   );
 };

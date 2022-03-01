@@ -6,12 +6,10 @@ import PartnerPreview from "./PartnerPreview.jsx";
 
 const Partners = () => {
   return (
-    <Row xs={1} md={2} className="g-4">
-      {Array.from({ length: 4 }).map((_, idx) => (
-        <Col>
-          <PartnerPreview>
-
-          </PartnerPreview>
+    <Row xs={1} md={2} className="">
+      {Array.from({ length: 4 }).map((info, idx) => (
+        <Col className="py-3 px-5">
+          <PartnerPreview partnerInfo={info}/>
         </Col>
       ))}
     </Row>
