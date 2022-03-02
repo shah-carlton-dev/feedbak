@@ -10,8 +10,11 @@ const Home = () => {
 
     return(
         <>
-        <Header></Header>
-        <Partners></Partners>
+        {/* <Header></Header> */}
+        <div className="partnersPadding">
+        <Partners/>
+        </div>
+
         </>
     )
 }

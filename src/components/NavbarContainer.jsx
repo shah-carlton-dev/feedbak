@@ -1,16 +1,16 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 
 import { Route, Routes, Link } from 'react-router-dom';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 
-import About from './About';
 import Home from './Home';
 import Login from './Login';
-
+import Business from './Business';
+import Searchbar from './SearchBar';
 import '../css/NavbarContainer.scss';
-
+import logo from '../images/logo.png';
 const NavbarContainer = () => {
-    
+
     const [toggled, setToggled] = useState(false);
     const handleTogglePress = (e) => {
         setToggled(!toggled);
@@ -20,21 +20,27 @@ const NavbarContainer = () => {
     return (
         <>
             <Navbar className="dark" expand="md" collapseOnSelect={true}>
-                <Navbar.Toggle className="ml-auto mr-0" onClick={e => handleTogglePress(e)} />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mx-auto">
-                        <Nav.Link className="text-light" eventKey={2} as={Link} to="/">Home</Nav.Link>
-                        <Nav.Link className="text-light" eventKey={3} as={Link} to="/about">About</Nav.Link>
+                <Container>
+                    <Navbar.Brand href="#home">
+                        <Nav.Link className="text-light" eventKey={2} as={Link} to="/">Feedbak</Nav.Link>
+                    </Navbar.Brand>
+                    <Navbar className="justify-content-center">
+                        <Searchbar />
+                    </Navbar>
+                    <Navbar className="justify-content-end">
                         <Nav.Link className="text-light" eventKey={4} as={Link} to="/login">Login</Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
+                    </Navbar>
+                </Container>
             </Navbar>
             <Routes>
-                <Route path="/" element={<Home/>} />
-                <Route path="/about" element={<About/>} />
-                <Route path="/login" element={<Login/>} />
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/business/:id" element={<Business />} />
             </Routes>
         </>
     )
 }
 export default NavbarContainer;
+
+{/* <Nav.Link className="text-light" eventKey={2} as={Link} to="/">Home</Nav.Link>
+<Nav.Link className="text-light" eventKey={4} as={Link} to="/login">Login</Nav.Link> */}
