@@ -7,12 +7,12 @@ const dbo = require("../db/conn");
 const busiRouter = express.Router();
 
 /**
- * get all posts for a company
+ * get all posts
  */
 busiRouter.route("/all").get(function (req, res) {
     let db_connect = dbo.getDb("feedbak01");
     db_connect
-        .collection("review")
+        .collection("business")
         .find({})
         .toArray(function (err, result) {
             if (err) throw err;
@@ -21,12 +21,12 @@ busiRouter.route("/all").get(function (req, res) {
 });
 
 /**
- * get all posts for a company
+ * get all posts but lite version
  */
  busiRouter.route("/search").get(function (req, res) {
     let db_connect = dbo.getDb("feedbak01");
     db_connect
-        .collection("review")
+        .collection("business")
         .find({}, {"name": 1, "about": 1})
         .toArray(function (err, result) {
             if (err) throw err;
@@ -35,7 +35,7 @@ busiRouter.route("/all").get(function (req, res) {
 });
 
 /**
- * get post by id
+ * get business by id
  */
 busiRouter.route("/:id").get(function (req, res) {
     let db_connect = dbo.getDb();
@@ -49,7 +49,7 @@ busiRouter.route("/:id").get(function (req, res) {
 });
 
 /**
- * post a new review
+ * post a new business
  */
 busiRouter.route("/new").post(function (req, response) {
     let db_connect = dbo.getDb("feedbak01");
@@ -76,9 +76,9 @@ busiRouter.route("/new").post(function (req, response) {
  */
 busiRouter.route("/update/:id").put(function (req, response) {
     let db_connect = dbo.getDb();
-    let review = { _id: ObjectId(req.params.id) };
-    console.log(review)
-    let newReview = {
+    let business = { _id: ObjectId(req.params.id) };
+    console.log(business)
+    let newBusiness = {
         $set: {
             score: req.body.score,
         },
