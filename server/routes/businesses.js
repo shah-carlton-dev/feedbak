@@ -21,6 +21,20 @@ busiRouter.route("/all").get(function (req, res) {
 });
 
 /**
+ * get all posts for a company
+ */
+ busiRouter.route("/search").get(function (req, res) {
+    let db_connect = dbo.getDb("feedbak01");
+    db_connect
+        .collection("review")
+        .find({}, {"name": 1, "about": 1})
+        .toArray(function (err, result) {
+            if (err) throw err;
+            res.json(result);
+        });
+});
+
+/**
  * get post by id
  */
 busiRouter.route("/:id").get(function (req, res) {
