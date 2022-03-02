@@ -4,19 +4,16 @@ var ObjectId = require("mongodb").ObjectId;
 // connect to db
 const dbo = require("../db/conn");
 
-const postsRouter = express.Router();
+const busiRouter = express.Router();
 
 /**
  * get all posts for a company
  */
-postsRouter.route("/all/:id").get(function (req, res) {
+busiRouter.route("/all").get(function (req, res) {
     let db_connect = dbo.getDb("feedbak01");
-    const businessId = ObjectId(req.params.id)
     db_connect
         .collection("review")
-        .find({
-            "business": businessId
-        })
+        .find({})
         .toArray(function (err, result) {
             if (err) throw err;
             res.json(result);
@@ -26,11 +23,11 @@ postsRouter.route("/all/:id").get(function (req, res) {
 /**
  * get post by id
  */
-postsRouter.route("/:id").get(function (req, res) {
+busiRouter.route("/:id").get(function (req, res) {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId(req.params.id) };
     db_connect
-        .collection("review")
+        .collection("business")
         .findOne(myquery, function (err, result) {
             if (err) throw err;
             res.json(result);
@@ -40,30 +37,30 @@ postsRouter.route("/:id").get(function (req, res) {
 /**
  * post a new review
  */
-postsRouter.route("/new").post(function (req, response) {
+busiRouter.route("/new").post(function (req, response) {
     let db_connect = dbo.getDb("feedbak01");
-    let review = {
-        title: req.body.title,
-        author: ObjectId(req.body.author),
-        post: req.body.post,
-        score: req.body.score,
-        business: ObjectId(req.body.businessId),
-        featured: req.body.featured,
-        date: new Date()
+    let business = {
+        name: req.body.name,
+        about: req.body.about,
+        website: req.body.website,
+        admins: [],
+        featured: [],
+        reviews: [],
+        daetJoined: new Date()
     }
     db_connect
-        .collection("review")
-        .insertOne(review, function (err, res) {
+        .collection("business")
+        .insertOne(business, function (err, res) {
             if (err) throw err;
             response.json(res);
         });
 });
 
-/**
+/** TODO
  * update post by id
  * @param score - new score for the post
  */
-postsRouter.route("/update/:id").put(function (req, response) {
+busiRouter.route("/update/:id").put(function (req, response) {
     let db_connect = dbo.getDb();
     let review = { _id: ObjectId(req.params.id) };
     console.log(review)
@@ -73,7 +70,7 @@ postsRouter.route("/update/:id").put(function (req, response) {
         },
     };
     db_connect
-        .collection("review")
+        .collection("business")
         .updateOne(review, newReview, function (err, res) {
             if (err) throw err;
             console.log("1 document updated");
@@ -82,14 +79,14 @@ postsRouter.route("/update/:id").put(function (req, response) {
 });
 
 // delete post by id
-postsRouter.route("/:id").delete((req, response) => {
+busiRouter.route("/:id").delete((req, response) => {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId(req.params.id) };
-    db_connect.collection("review").deleteOne(myquery, function (err, obj) {
+    db_connect.collection("business").deleteOne(myquery, function (err, obj) {
         if (err) throw err;
         console.log("1 document deleted");
         response.json(obj);
     });
 });
 
-module.exports = postsRouter;
+module.exports = busiRouter;

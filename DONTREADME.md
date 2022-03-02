@@ -23,3 +23,40 @@ feedbak (root)
     - index.js
 
 ```
+## Database schema
+Review: 
+```
+{
+    _id: id,
+    title: post title,
+    author: author's id
+    post: post body,
+    score: score (int64),
+    business: business id,
+    featured: is featured boolean,
+    date: new Date()
+}
+```
+User:
+```
+{
+    _id: id,
+    name: username,
+    email: email,
+    password: hashed for security ;),
+    reviews: [review ids]
+}
+```
+Business:
+```
+{
+    _id: id,
+    name: business name,
+    about: quick business description,
+    dateJoined: the date they join,
+    website: a URL for the business,
+    admins: [user ids that are admins for the business],
+    featured: [review ids that are featured],
+    reviews: [review ids for all reviews]
+}
+```

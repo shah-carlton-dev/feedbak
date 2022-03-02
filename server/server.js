@@ -9,6 +9,7 @@ app.use(express.json());
 // set routes up
 app.use('/posts', require("./routes/posts.js"));
 app.use('/users', require("./routes/users.js"))
+app.use('/businesses', require("./routes/businesses.js"))
 
 // get driver connection
 const dbo = require("./db/conn");
