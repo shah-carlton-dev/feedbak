@@ -5,6 +5,8 @@ const Post = (postInfo) => {
     const post = postInfo.postInfo.post;
     const score = postInfo.postInfo.score;
     const author = postInfo.postInfo.author;
+    const featured = postInfo.postInfo.featured;
+    const date = postInfo.postInfo.date;
     return(
         <>
         <Card>
@@ -12,6 +14,8 @@ const Post = (postInfo) => {
             <h3>{author}</h3>
             <p>{post}</p>
             <p>{score}</p>
+            <p>{featured}</p>
+            <p>{date}</p>
         </Card>
 
         </>

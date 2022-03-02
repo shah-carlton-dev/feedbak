@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from 'react-router-dom';
 import {Card} from 'react-bootstrap';
+const PartnerPreview = ({partnerInfo}) => {
+  console.log(partnerInfo)
+  const businessURL = "/business/" + partnerInfo._id;w
+  const name = partnerInfo.name;
 
-const PartnerPreview = (partnerInfo) => {
-  const businessURL = "/business/" + partnerInfo.partnerInfo.id;
-  const name = partnerInfo.partnerInfo.name;
+
   return (
       <Card className="partner-preview">
         <h2>{name}</h2>

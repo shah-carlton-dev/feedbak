@@ -1,18 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {Row, Col} from 'react-bootstrap';
 import Post from './Post';
+import Axios from 'axios';
+import {API_URL} from '../utils/constants';
 
 const Business = (props) => {
-    const { id } = useParams();
-    // get business feed by ID!
-    const testPosts = [{title: 'post 1', post: 'asdf asdf asdf asdf asdf asdf asdf', author: 'john doe', score: 100}, {title: 'post 2', post: 'asdf asdf asdf asdf asdf asdf asdf', author: 'john does', score: 90}, {title: 'post 3', post: 'asdf asdf asdf asdf asdf asdf asdf', author: 'john doe', score: -10}]
+    const [posts, setPosts] = useState([]);
+    const { id } = useParams();    
+    const getPostsData = async () => {
+        const url = API_URL + '/posts/all/' + id;
+        try {
+            await Axios.get(url).then(res => setPosts(res.data));
+        } catch (err) {
+            console.log("error retrieving posts list");
+        }
+    }
+    useEffect(()=> {
+        getPostsData();
+    },[]);
+    // const testPosts = [{title: 'post 1', post: 'asdf asdf asdf asdf asdf asdf asdf', author: 'john doe', score: 100}, {title: 'post 2', post: 'asdf asdf asdf asdf asdf asdf asdf', author: 'john does', score: 90}, {title: 'post 3', post: 'asdf asdf asdf asdf asdf asdf asdf', author: 'john doe', score: -10}]
     return (
         <>
         <h1>Business!</h1>
         <Row xs={1} md={2} className="">
-            {testPosts.map((info, idx) => (
-                <Col className="py-3 px-5">
+            {posts.map((info, idx) => (
+                <Col key={idx} className="py-3 px-5">
                 <Post key={idx} postInfo={info}/>
                 </Col>
             ))}
