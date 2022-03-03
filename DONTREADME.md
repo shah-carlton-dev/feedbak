@@ -40,7 +40,7 @@ feedbak (root)
 - `GET /posts/all/:id` returns all posts for the company ID given
 - `GET posts/:id` returns the post with the ID given
 - `POST posts/new` creates a new post with the JSON body content
-- `PUT posts/update/:id` updates a post's score
+- `PUT posts/update/:id` updates a post's score with JSON score given
 - `DELETE posts/:id` deletes a post by ID
 ### Users
 ```

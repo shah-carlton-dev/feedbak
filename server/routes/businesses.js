@@ -6,9 +6,7 @@ const dbo = require("../db/conn");
 
 const busiRouter = express.Router();
 
-/**
- * get all posts
- */
+// get all businesses
 busiRouter.route("/all").get(function (req, res) {
     let db_connect = dbo.getDb("feedbak01");
     db_connect
@@ -20,37 +18,32 @@ busiRouter.route("/all").get(function (req, res) {
         });
 });
 
-/**
- * get all posts but lite version
- */
- busiRouter.route("/search").get(function (req, res) {
+// get all businesses but lite version
+busiRouter.route("/search").get(function (req, res) {
     let db_connect = dbo.getDb("feedbak01");
     db_connect
         .collection("business")
-        .find({}, {"name": 1, "about": 1})
+        .find({})
+        .project({ name: 1, about: 1 })
         .toArray(function (err, result) {
             if (err) throw err;
             res.json(result);
         });
+
 });
 
-/**
- * get business by id
- */
+// get business by id
 busiRouter.route("/:id").get(function (req, res) {
     let db_connect = dbo.getDb();
-    let myquery = { _id: ObjectId(req.params.id) };
     db_connect
         .collection("business")
-        .findOne(myquery, function (err, result) {
+        .findOne({ _id: ObjectId(req.params.id) }, function (err, result) {
             if (err) throw err;
             res.json(result);
         });
 });
 
-/**
- * post a new business
- */
+// create a new business
 busiRouter.route("/new").post(function (req, response) {
     let db_connect = dbo.getDb("feedbak01");
     let business = {
@@ -60,7 +53,7 @@ busiRouter.route("/new").post(function (req, response) {
         admins: [],
         featured: [],
         reviews: [],
-        daetJoined: new Date()
+        dateJoined: new Date()
     }
     db_connect
         .collection("business")
@@ -70,29 +63,26 @@ busiRouter.route("/new").post(function (req, response) {
         });
 });
 
-/** TODO
- * update post by id
- * @param score - new score for the post
- */
+// update business by id
 busiRouter.route("/update/:id").put(function (req, response) {
     let db_connect = dbo.getDb();
-    let business = { _id: ObjectId(req.params.id) };
-    console.log(business)
-    let newBusiness = {
-        $set: {
-            score: req.body.score,
-        },
-    };
     db_connect
         .collection("business")
-        .updateOne(review, newReview, function (err, res) {
+        .updateOne({ _id: ObjectId(req.params.id) }, {
+            $set: {
+                name: req.body.name,
+                about: req.body.about,
+                website: req.body.website
+            }
+        }, function (err, res) {
             if (err) throw err;
             console.log("1 document updated");
             response.json(res);
         });
 });
 
-// delete post by id
+// delete business by id
+// what to do about deletions
 busiRouter.route("/:id").delete((req, response) => {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId(req.params.id) };
@@ -102,5 +92,7 @@ busiRouter.route("/:id").delete((req, response) => {
         response.json(obj);
     });
 });
+
+// need to be able to add users to this, with unique auth keys every time
 
 module.exports = busiRouter;
