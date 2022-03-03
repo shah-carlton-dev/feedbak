@@ -9,7 +9,7 @@ const Post = (postInfo) => {
     const date = postInfo.postInfo.date;
     return(
         <>
-        <Card>
+        <Card className='p-4'>
             <h2>{title}</h2>
             <h3>{author}</h3>
             <p>{post}</p>
