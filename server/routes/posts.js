@@ -88,7 +88,6 @@ postsRouter.route("/update/:id").put(function (req, response) {
             { $set: { score: req.body.score } },
             function (err, res) {
                 if (err) throw err;
-                console.log("1 document updated");
                 response.json(res);
             });
 });
