@@ -23,8 +23,8 @@ feedbak (root)
     - index.js
 
 ```
-## Database schema
-Review: 
+## Server info
+### Reviews/Posts
 ```
 {
     _id: id,
@@ -37,7 +37,12 @@ Review:
     date: new Date()
 }
 ```
-User:
+- `GET /posts/all/:id` returns all posts for the company ID given
+- `GET posts/:id` returns the post with the ID given
+- `POST posts/new` creates a new post with the JSON body content
+- `PUT posts/update/:id` updates a post's score
+- `DELETE posts/:id` deletes a post by ID
+### Users
 ```
 {
     _id: id,
@@ -47,7 +52,9 @@ User:
     reviews: [review ids]
 }
 ```
-Business:
+#### Endpoints
+
+### Businesses
 ```
 {
     _id: id,
@@ -60,3 +67,4 @@ Business:
     reviews: [review ids for all reviews]
 }
 ```
+#### Endpoints
