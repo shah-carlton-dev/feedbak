@@ -6,9 +6,7 @@ const dbo = require("../db/conn");
 
 const postsRouter = express.Router();
 
-/**
- * get all posts for a company
- */
+// get all posts for a company
 postsRouter.route("/all/:id").get(function (req, res) {
     let db_connect = dbo.getDb("feedbak01");
     db_connect
@@ -22,9 +20,7 @@ postsRouter.route("/all/:id").get(function (req, res) {
         });
 });
 
-/**
- * get post by id
- */
+// get post by id
 postsRouter.route("/:id").get(function (req, res) {
     let db_connect = dbo.getDb();
     db_connect
@@ -37,13 +33,7 @@ postsRouter.route("/:id").get(function (req, res) {
             });
 });
 
-/**
- * post a new review, add review to user and company profiles
- * expects: 
- * {
- * title, authorId, post, businessId
- * }
- */
+// post a new review, add review to user and company profiles
 postsRouter.route("/new").post(async function (req, response) {
     let db_connect = dbo.getDb("feedbak01");
     let review = {
@@ -75,10 +65,7 @@ postsRouter.route("/new").post(async function (req, response) {
         })
 });
 
-/**
- * update post by id
- * @param score - new score for the post
- */
+// update post by id
 postsRouter.route("/update/:id").put(function (req, response) {
     let db_connect = dbo.getDb();
     db_connect
