@@ -73,7 +73,7 @@ usersRouter.route("/token").post(function (req, response) {
     } catch (err) {
         return response.status(400).json({ message: `Error while validating token: ${err}` })
     }
-})
+});
 
 // log user in
 usersRouter.route("/login").post(function (req, response) {
@@ -117,7 +117,7 @@ usersRouter.route("/updateUsername/:id").put(function (req, response) {
                 .then(result => response.status(200).json({ message: "Successfully updated username", data: result }))
                 .catch(err => response.status(400).json({ message: "Error while updating user doc", data: err }))
         });
-})
+});
 
 // update email by id
 usersRouter.route("/updateEmail/:id").put(function (req, response) {
@@ -134,7 +134,7 @@ usersRouter.route("/updateEmail/:id").put(function (req, response) {
                 .then(result => response.status(200).json({ message: "Successfully updated email", data: result }))
                 .catch(err => response.status(400).json({ message: "Error while updating user doc", data: err }))
         });
-})
+});
 
 // delete user by id
 usersRouter.route("/:id").delete((req, response) => {

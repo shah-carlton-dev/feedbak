@@ -79,7 +79,7 @@ postsRouter.route("/update/:id").put(function (req, response) {
             });
 });
 
-// delete post by id
+// delete post by id and update relevant lists
 postsRouter.route("/:id").delete((req, response) => {
     const reviewCollection = dbo.getDb("feedbak01").collection("review");
    reviewCollection
