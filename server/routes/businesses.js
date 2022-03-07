@@ -1,5 +1,5 @@
 const express = require("express");
-var ObjectId = require("mongodb").ObjectId;
+const ObjectId = require("mongodb").ObjectId;
 
 // connect to db
 const dbo = require("../db/conn");
@@ -76,23 +76,58 @@ busiRouter.route("/update/:id").put(function (req, response) {
             }
         }, function (err, res) {
             if (err) throw err;
-            console.log("1 document updated");
+            // console.log("1 document updated");
             response.json(res);
         });
 });
 
-// delete business by id
-// what to do about deletions
+// archive business by id and move all reviews to archive
 busiRouter.route("/:id").delete((req, response) => {
     let db_connect = dbo.getDb();
-    let myquery = { _id: ObjectId(req.params.id) };
-    db_connect.collection("business").deleteOne(myquery, function (err, obj) {
-        if (err) throw err;
-        console.log("1 document deleted");
-        response.json(obj);
-    });
-});
+    const businessId = ObjectId(req.params.id);
+    let msgSent = false;
+    let numCompletions = 0;
 
-// need to be able to add users to this, with unique auth keys every time
+    db_connect.collection("review")
+        .find({
+            "business": businessId
+        })
+        .toArray(function (err, reviewDocs) {
+            if (err) throw err;
+            if (reviewDocs.length === 0) return;
+            reviewIds = reviewDocs.map(doc => doc._id);
+            db_connect.collection("review_archive")
+                .insertMany(reviewDocs, function (err, res) {
+                    if (err) throw err;
+                })
+
+            db_connect.collection("review")
+                .deleteMany({ _id: { "$in": reviewIds } })
+                .catch(err => console.log(`error encountered: ${err}`))
+        });
+
+    db_connect.collection("business")
+        .findOne({ _id: businessId }, function (err, businessDoc) {
+            if (err) throw err;
+            if (businessDoc === null) {
+                if (!msgSent) {
+                    response.json({ result: "no matching business docs found" })
+                    msgSent = true;
+                }
+                return;
+            }
+            db_connect.collection("business_archive")
+                .insertOne(businessDoc, function (err, res) {
+                    if (err) throw err;
+                })
+
+            db_connect.collection("business")
+                .deleteOne({ _id: businessId })
+                .catch(err => console.log(`error encountered: ${err}`))
+            
+            response.json({result: "successful move!"})
+        });
+
+});
 
 module.exports = busiRouter;

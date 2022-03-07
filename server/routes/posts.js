@@ -35,7 +35,8 @@ postsRouter.route("/:id").get(function (req, res) {
 
 // post a new review, add review to user and company profiles
 postsRouter.route("/new").post(async function (req, response) {
-    let db_connect = dbo.getDb("feedbak01");
+    const reviewCollection = dbo.getDb("feedbak01").collection("review");
+    const db_connect = dbo.getDb("feedbak01");
     let review = {
         title: req.body.title,
         author: ObjectId(req.body.authorId),
@@ -45,8 +46,7 @@ postsRouter.route("/new").post(async function (req, response) {
         featured: false,
         date: new Date()
     }
-    db_connect
-        .collection("review")
+    reviewCollection
         .insertOne(review, function (err, res) {
             if (err) throw err;
             response.json(res);
@@ -67,9 +67,9 @@ postsRouter.route("/new").post(async function (req, response) {
 
 // update post by id
 postsRouter.route("/update/:id").put(function (req, response) {
-    let db_connect = dbo.getDb();
-    db_connect
-        .collection("review")
+    db_connect = dbo.getDb("feedbak01")
+    const reviewCollection = db_connect.collection("review");
+    reviewCollection
         .updateOne(
             { _id: ObjectId(req.params.id) },
             { $set: { score: req.body.score } },
@@ -81,12 +81,11 @@ postsRouter.route("/update/:id").put(function (req, response) {
 
 // delete post by id
 postsRouter.route("/:id").delete((req, response) => {
-    let db_connect = dbo.getDb();
-    db_connect
-        .collection("review")
+    const reviewCollection = dbo.getDb("feedbak01").collection("review");
+   reviewCollection
         .findOne(
             { _id: ObjectId(req.params.id) },
-            function (err, res) {
+            function (err, result) {
                 if (err) throw err;
                 db_connect
                     .collection("user")
