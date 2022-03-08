@@ -60,7 +60,7 @@ usersRouter.route("/new").post(function (req, response) {
 usersRouter.route("/token").post(function (req, response) {
     const userCollection = dbo.getDb("feedback01").collection("user")
     try {
-        const token = req.body.authKey;
+        const token = req.body.authToken;
         if (!token) return response.status(400).json({ message: "No token given" });
         const verified = jwt.verify(token, jwt_pass);
         if (!verified) return response.status(400).json({ message: "Could not validate token" })
@@ -68,7 +68,7 @@ usersRouter.route("/token").post(function (req, response) {
         userCollection.findOne({ _id: ObjectId(verified.id) }, function (err, user) {
             if (err) return response.status(400).json({ message: "No user found by ID" })
             if (user == null) return response.status(400).json({ message: "No user found by ID" })
-            return response.status(200).json({ message: "Successfully verified", token: token, data: user })
+            return response.status(200).json({ message: "Successfully verified", valid: true, token: token, user: user })
         })
     } catch (err) {
         return response.status(400).json({ message: `Error while validating token: ${err}` })

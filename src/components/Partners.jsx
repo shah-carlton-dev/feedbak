@@ -15,7 +15,7 @@ const Partners = () => {
     try {
       await Axios.get(url).then(res => {setPartners(res.data);});
     } catch (err) {
-      console.log("error retrieving business list")
+      console.log("Error retrieving business list")
     }
   }
   useEffect(() => {
