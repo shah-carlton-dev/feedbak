@@ -3,7 +3,7 @@ const path = require("path");
 
 module.exports = {
     entry: "./src/index.js",
-    mode: "development",
+    mode: "production",
     output: {
         filename: "bundle.[hash].js",
         path: path.resolve(__dirname, "dist"),
