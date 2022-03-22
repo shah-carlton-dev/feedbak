@@ -1,7 +1,4 @@
 import React, { useContext } from "react";
-
-import Header from "./Header.jsx";
-import PartnerPreview from "./PartnerPreview.jsx";
 import Partners from "./Partners.jsx";
 
 import "../css/Home.scss";
@@ -11,8 +8,7 @@ const Home = () => {
   const { userData, setUserData } = useContext(UserContext);
 
   return (
-    <div>
-      {/* <Header></Header> */}
+    <div className="background-color">
       <div className="partnersPadding">
         <Partners />
       </div>

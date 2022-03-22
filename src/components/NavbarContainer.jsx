@@ -8,7 +8,7 @@ import Login from './Login';
 import Business from './Business';
 import Searchbar from './SearchBar';
 import '../css/NavbarContainer.scss';
-import logo from '../images/logo.png';
+
 const NavbarContainer = () => {
 
     const [toggled, setToggled] = useState(false);
@@ -19,16 +19,17 @@ const NavbarContainer = () => {
 
     return (
         <>
-            <Navbar className="dark" expand="md" collapseOnSelect={true}>
+            <Navbar className="dark navbar-height" expand="md" collapseOnSelect={true}>
                 <Container>
                     <Navbar.Brand href="#home">
-                        <Nav.Link className="text-light" eventKey={2} as={Link} to="/">Feedbak</Nav.Link>
+                        <Nav.Link className="text-grey" eventKey={2} as={Link} to="/">Feedbak</Nav.Link>
                     </Navbar.Brand>
                     <Navbar className="justify-content-center">
                         <Searchbar />
                     </Navbar>
                     <Navbar className="justify-content-end">
-                        <Nav.Link className="text-light" eventKey={4} as={Link} to="/login">Login</Nav.Link>
+                        <Nav.Link className="text-grey" eventKey={4} as={Link} to="/login">Login</Nav.Link>
+                        <Nav.Link className="text-grey" eventKey={5} as={Link} to="/login">Signup</Nav.Link>
                     </Navbar>
                 </Container>
             </Navbar>
@@ -41,6 +42,3 @@ const NavbarContainer = () => {
     )
 }
 export default NavbarContainer;
-
-{/* <Nav.Link className="text-light" eventKey={2} as={Link} to="/">Home</Nav.Link>
-<Nav.Link className="text-light" eventKey={4} as={Link} to="/login">Login</Nav.Link> */}

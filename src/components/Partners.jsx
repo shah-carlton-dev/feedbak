@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-import { Row, Col } from "react-bootstrap";
+import { Row, Container} from "react-bootstrap";
 
 import PartnerPreview from "./PartnerPreview.jsx";
 
@@ -22,15 +22,13 @@ const Partners = () => {
     getPartnersData();
   }, []);
 
-  // const test = [{id: 123, name: "biz1"}, {id: 443, name: "biz2"}, {id: 866, name: "biz3"}, {id: 345, name: "biz4"}, ]
   return (
     <Row xs={1} md={2} className="">
       {partners.map((info, idx) => (
-        <Col key={idx} className="py-3 px-5">
           <PartnerPreview key={idx} partnerInfo={info}/>
-        </Col>
       ))}
     </Row>
+
   );
 };
 
