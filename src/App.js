@@ -34,7 +34,7 @@ const App = () => {
    };
 
    return (
-      <UserContext.Provider value={userData}>
+      <UserContext.Provider value={{userData, setUserData}}>
          <NavbarContainer />
       </UserContext.Provider>
    )

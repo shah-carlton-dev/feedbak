@@ -6,23 +6,8 @@ import { Modal, Button, ToggleButton, ToggleButtonGroup, Form, } from "react-boo
 import { API_URL } from "../utils/constants";
 import UserContext from "../utils/UserContext.js";
 
-
-
-async function sendLoginReq(info, setUserData) {
-	const url = API_URL + "/users/login";
-	try {
-		await Axios.post(url, info).then((res) => {
-			console.log(res.data);
-			setUserData(res.data)
-		});
-	} catch (err) {
-		console.log("Error while attempting login");
-		console.log(err);
-	}
-};
-
 async function sendSignupReq(info, setUserData) {
-	const url = API_URL + "/users/login";
+	const url = API_URL + "/users/signup";
 	try {
 		await Axios.post(url, info).then((res) => {
 			console.log(res.data);
@@ -34,21 +19,34 @@ async function sendSignupReq(info, setUserData) {
 	}
 };
 
-async function handleLoginSubmit(e) {
-	e.preventDefault();
-	sendLoginReq({ username, password });
-};
+function LoginForm({ hide }) {
+	const { userData, setUserData } = useContext(UserContext);
 
-async function handleSignupSubmit(e) {
-	e.preventDefault();
-	sendSignupReq({ username, password }, setUserData);
-};
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
 
-function LoginForm(props) {
+	async function handleLoginSubmit(e) {
+		e.preventDefault();
+		sendLoginReq({ username, password })
+	};
+
+	async function sendLoginReq(info) {
+		const url = API_URL + "/users/login";
+		try {
+			await Axios.post(url, info).then((res) => {
+				console.log('Successfully logged in')
+				setUserData(res.data)
+				hide();
+			});
+		} catch (err) {
+			console.log("Error while attempting login");
+		}
+	};
+
 	return (
 		<Modal.Body>
 			<h4>Login</h4>
-			<Form onSubmit={(e) => handleLoginSubmit(e)}>
+			<Form onSubmit={e => handleLoginSubmit(e)}>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label>Username</Form.Label>
 					<Form.Control type="text" placeholder="Enter username" autoComplete="username"
@@ -83,12 +81,13 @@ function SignupForm(props) {
 }
 
 function LoginSignupModal(props) {
-	const { userData, setUserData } = useContext(UserContext);
-
-	let login = props.open;
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
+	const login = props.open
 	const [open, setOpen] = useState(0);
+
+	async function handleSignupSubmit(e) {
+		e.preventDefault();
+		sendSignupReq({ username, password }, setUserData);
+	};
 
 	return (
 		<Modal {...props} size="lg" aria-labelledby="login-signup-modal" centered >
@@ -101,10 +100,13 @@ function LoginSignupModal(props) {
 				</ToggleButton>
 			</ToggleButtonGroup>
 			{
-				(open || login) === 1 ? <LoginForm /> : <SignupForm />
+				(open || login) === 1
+					// ? <LoginForm handleLoginSubmit={handleLoginSubmit} setUsername={setUsername} setPassword={setPassword} />
+					? <LoginForm hide={() => props.onHide()} />
+					: <SignupForm />
 			}
 			<Modal.Footer>
-				<Button onClick={() => props.onHide}>Close</Button>
+				<Button onClick={() => props.onHide()}>Close</Button>
 			</Modal.Footer>
 		</Modal>
 	);

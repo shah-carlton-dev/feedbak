@@ -30,10 +30,10 @@ const NavbarContainer = () => {
 						<Searchbar />
 					</Navbar>
 					<Navbar className="justify-content-end">
-						<Nav.Link className="text-grey" eventKey={4} as={Link} to="/" onClick={() => setShowLogin(1)} >
+						<Nav.Link className="text-grey" eventKey={4} as={Link} to="#" onClick={() => setShowLogin(1)} >
 							Login
 						</Nav.Link>
-						<Nav.Link className="text-grey" eventKey={5} as={Link} to="/" onClick={() => setShowLogin(2)} >
+						<Nav.Link className="text-grey" eventKey={5} as={Link} to="#" onClick={() => setShowLogin(2)} >
 							Signup
 						</Nav.Link>
 					</Navbar>
