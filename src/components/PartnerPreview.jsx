@@ -4,7 +4,7 @@ import {Col, Card, Button} from 'react-bootstrap';
 import "../css/NavbarContainer.scss";
 import "../css/Home.scss";
 const PartnerPreview = ({partnerInfo}) => {
-  console.log(partnerInfo)
+//   console.log(partnerInfo)
   const businessURL = "/business/" + partnerInfo._id;
   const name = partnerInfo.name;
 
