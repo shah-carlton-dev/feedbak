@@ -5,7 +5,6 @@ import { API_URL } from './utils/constants.js';
 
 
 const App = () => {
-
    const [userData, setUserData] = useState({ token: 0, user: {} });
 
    useEffect(() => {

@@ -43,7 +43,9 @@ const NavbarContainer = () => {
 				<Route path="/" element={<Home />} />
 				<Route path="/business/:id" element={<Business />} />
 			</Routes>
-
+			{
+				
+			}
 			{
 				showLogin !== 0 ? (
 					showLogin === 1 ?
