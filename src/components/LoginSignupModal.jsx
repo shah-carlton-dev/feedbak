@@ -23,6 +23,7 @@ function LoginForm({ hide }) {
 			await Axios.post(url, info).then((res) => {
 				console.log('Successfully logged in')
 				setUserData(res.data)
+				localStorage.setItem("auth-token", res.data.token);
 				hide();
 			});
 		} catch (err) {

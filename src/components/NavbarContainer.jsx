@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Route, Routes, Link } from "react-router-dom";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 
 import Home from "./Home";
 import Business from "./Business";
 import Searchbar from "./SearchBar";
 import LoginSignupModal from "./LoginSignupModal";
 import "../css/NavbarContainer.scss";
+
+import UserContext from "../utils/UserContext.js";
+import { createPortal } from "react-dom/cjs/react-dom.development";
+
 
 const NavbarContainer = () => {
 	//   const [toggled, setToggled] = useState(false);
@@ -16,8 +20,14 @@ const NavbarContainer = () => {
 	//       ? $("#registerbtn").css("display", "inline-block")
 	//       : $("#registerbtn").css("display", "none");
 	//   };
+	const { userData, setUserData } = useContext(UserContext);
 
 	const [showLogin, setShowLogin] = useState(0);
+
+	const doLogout = () => {
+		localStorage.removeItem('auth-token');
+		setUserData({ token: 0, user: {} });
+	}
 
 	return (
 		<div>
@@ -30,12 +40,23 @@ const NavbarContainer = () => {
 						<Searchbar />
 					</Navbar>
 					<Navbar className="justify-content-end">
-						<Nav.Link className="text-grey" eventKey={4} as={Link} to="#" onClick={() => setShowLogin(1)} >
-							Login
-						</Nav.Link>
-						<Nav.Link className="text-grey" eventKey={5} as={Link} to="#" onClick={() => setShowLogin(2)} >
-							Signup
-						</Nav.Link>
+						{
+							userData.user.username ?
+								<NavDropdown title={userData.user.username} id="username-nav-dropdown" className="text-grey">
+									<NavDropdown.Item href="#">Profile</NavDropdown.Item>
+									<NavDropdown.Item href="#">Reviews</NavDropdown.Item>
+									<NavDropdown.Divider />
+									<NavDropdown.Item href="#" onClick={()=>doLogout()}>Logout</NavDropdown.Item>
+								</NavDropdown> :
+								<>
+									<Nav.Link className="text-grey" eventKey={4} as={Link} to="#" onClick={() => setShowLogin(1)} >
+										Login
+									</Nav.Link>
+									<Nav.Link className="text-grey" eventKey={5} as={Link} to="#" onClick={() => setShowLogin(2)} >
+										Signup
+									</Nav.Link>
+								</>
+						}
 					</Navbar>
 				</Container>
 			</Navbar>
@@ -43,9 +64,6 @@ const NavbarContainer = () => {
 				<Route path="/" element={<Home />} />
 				<Route path="/business/:id" element={<Business />} />
 			</Routes>
-			{
-				
-			}
 			{
 				showLogin !== 0 ? (
 					showLogin === 1 ?
