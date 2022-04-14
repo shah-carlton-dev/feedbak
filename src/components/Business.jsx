@@ -21,8 +21,8 @@ const Business = (props) => {
     },[]);
     // const testPosts = [{title: 'post 1', post: 'asdf asdf asdf asdf asdf asdf asdf', author: 'john doe', score: 100}, {title: 'post 2', post: 'asdf asdf asdf asdf asdf asdf asdf', author: 'john does', score: 90}, {title: 'post 3', post: 'asdf asdf asdf asdf asdf asdf asdf', author: 'john doe', score: -10}]
     return (
-        <div className="background-color">
-            <Container className="background-color">
+        <div className="">
+            <Container className="">
                 <h1 className="text-center">Business!</h1>
                 <Row xs={1} md={2} className="">
                     {posts.map((info, idx) => (

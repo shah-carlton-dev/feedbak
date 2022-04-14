@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
 
-body {
-    background-color: #242424;
-}
+// body {
+//     background-color: #242424;
+// }
 
 p, h1, h2, h3, h4, h5, h6, th, td, a, ul, li{
     font-family: "Roboto Mono", monospace;
@@ -11,23 +11,53 @@ p, h1, h2, h3, h4, h5, h6, th, td, a, ul, li{
 
 .text-black {
     color: #242424;
+} 
+#searchBar {
+    border: 2px solid purple;
+    border-radius: 30px;
+    line-height: 3;
+    background-color: rgba(255,255,255,0.6);
+    text-align: center;
+    color: purple;
+}
+#searchBar:hover {
+    background-color: rgba(255,255,255,0.9);
 }
 
+#searchBar::placeholder {
+    color: purple;
+}
+.imageBox {
+    height: 10rem; 
+    background-color: rgba(255,255,255,0.5);
+    padding-left: 10%;
+    padding-right: 10%;
+    border: 1px solid purple;
+    border-radius: 40px;
+}
+.imageBox:hover {
+    background-color: rgba(255,255,255,0.9);
+}
 .text-grey {
     color: #7d7d7d !important;
 }
 .button-grey {
-    background-color: #7d7d7d !important;
+    background-color: rgb(163,110,252) !important;
     border-color: #7d7d7d !important;
 }
 .background-color {
-    background-color: #ededed;
+    background-image: radial-gradient( rgb(235,238,247),rgb(163,110,252));
     min-height: 100vh;
 }
-
-.dark {
-    background-color: #242424 !important;   
+#username-nav-dropdown {
+    color: rgb(245,246,247) !important;
 }
+.white-text {
+    color: rgb(245,246,247) !important;
+}
+// .dark {
+//     background-color: #242424 !important;   
+// }
 .light-border {
     border-color: #ededed !important;
 }

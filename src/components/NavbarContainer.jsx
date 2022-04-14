@@ -7,7 +7,6 @@ import Business from "./Business";
 import Searchbar from "./SearchBar";
 import LoginSignupModal from "./LoginSignupModal";
 import "../css/NavbarContainer.scss";
-
 import UserContext from "../utils/UserContext.js";
 import { createPortal } from "react-dom/cjs/react-dom.development";
 
@@ -30,29 +29,26 @@ const NavbarContainer = () => {
 	}
 
 	return (
-		<div>
+		<div className="background-color">
 			<Navbar className="dark navbar-height" expand="md" collapseOnSelect={true} >
 				<Container>
-					<Navbar.Brand className="text-grey" as={Link} to="/" href="#home">
+					<Navbar.Brand className="white-text" as={Link} to="/" href="#home">
 						Feedbak
 					</Navbar.Brand>
-					<Navbar className="justify-content-center">
-						<Searchbar />
-					</Navbar>
 					<Navbar className="justify-content-end">
 						{
 							userData.user.username ?
-								<NavDropdown title={userData.user.username} id="username-nav-dropdown" className="text-grey">
+								<NavDropdown title={userData.user.username} id="username-nav-dropdown" className="white-text">
 									<NavDropdown.Item href="#">Profile</NavDropdown.Item>
 									<NavDropdown.Item href="#">Reviews</NavDropdown.Item>
 									<NavDropdown.Divider />
 									<NavDropdown.Item href="#" onClick={()=>doLogout()}>Logout</NavDropdown.Item>
 								</NavDropdown> :
 								<>
-									<Nav.Link className="text-grey" eventKey={4} as={Link} to="#" onClick={() => setShowLogin(1)} >
+									<Nav.Link className="white-text" eventKey={4} as={Link} to="#" onClick={() => setShowLogin(1)} >
 										Login
 									</Nav.Link>
-									<Nav.Link className="text-grey" eventKey={5} as={Link} to="#" onClick={() => setShowLogin(2)} >
+									<Nav.Link className="white-text" eventKey={5} as={Link} to="#" onClick={() => setShowLogin(2)} >
 										Signup
 									</Nav.Link>
 								</>

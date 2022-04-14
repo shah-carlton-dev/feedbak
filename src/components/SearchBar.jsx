@@ -9,7 +9,7 @@ const SearchBar = () => {
     <>
         <Form className="search-input">
           <Form.Group className="search-bar-margin" controlId="searchBar">
-            <Form.Control className="" type="text" placeholder="Search our partners" />
+            <Form.Control className="" type="text" placeholder="search partners" />
           </Form.Group>
         </Form>
     </>

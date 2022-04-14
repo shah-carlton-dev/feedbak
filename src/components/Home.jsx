@@ -8,7 +8,7 @@ const Home = () => {
   const { userData, setUserData } = useContext(UserContext);
 
   return (
-    <div className="background-color">
+    <div className="">
       <div className="partnersPadding">
         <Partners />
       </div>

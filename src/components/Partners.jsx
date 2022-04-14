@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 
-import { Row, Container} from "react-bootstrap";
+import { Row, Container, Col} from "react-bootstrap";
 
 import PartnerPreview from "./PartnerPreview.jsx";
+import SearchBar from "./SearchBar";
 
 import Axios from 'axios';
 import {API_URL} from '../utils/constants';
@@ -23,12 +24,20 @@ const Partners = () => {
   }, []);
 
   return (
-    <Row xs={1} md={2} className="">
+    <>
+    <Row>
+      <Col></Col>
+      <Col md={6}>
+        <SearchBar/>
+      </Col>
+      <Col></Col>
+    </Row>
+    <Row xs={1} md={3} className="">
       {partners.map((info, idx) => (
           <PartnerPreview key={idx} partnerInfo={info}/>
       ))}
     </Row>
-
+    </>
   );
 };
 
