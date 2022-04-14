@@ -12,11 +12,12 @@ const PartnerPreview = ({partnerInfo}) => {
   console.log(partnerInfo);
   return (
     <Col className="cardPadding">
-      <div className="imageBox align-items-center d-flex">
-        <Link to={businessURL}>
-        <Image fluid src={logo}/>
-        </Link>
-      </div>
+      <Link to={businessURL}>
+        <div className="imageBox align-items-center d-flex">
+          <Image fluid src={logo}/>
+        </div>
+      </Link>
+
       {/*<Card>
             <Card.Img variant="top" src={logo} />
             <Card.Body>
