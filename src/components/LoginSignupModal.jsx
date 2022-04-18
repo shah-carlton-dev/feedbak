@@ -12,6 +12,8 @@ function LoginForm({ hide }) {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
+	const [errMessage, setErrMessage] = useState("")
+
 	async function handleLoginSubmit(e) {
 		e.preventDefault();
 		sendLoginReq({ username, password })
@@ -28,6 +30,7 @@ function LoginForm({ hide }) {
 			});
 		} catch (err) {
 			console.log("Error while attempting login");
+			setErrMessage(err.response.data.message)
 		}
 	};
 
@@ -50,6 +53,9 @@ function LoginForm({ hide }) {
 				<Button variant="primary" type="submit">
 					Submit
 				</Button>
+				<Form.Text className="text-muted">
+					<br />{`${errMessage}`}
+				</Form.Text>
 			</Form>
 		</Modal.Body>
 	)

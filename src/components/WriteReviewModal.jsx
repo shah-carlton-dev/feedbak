@@ -22,12 +22,10 @@ function WriteReviewModal(props) {
 		try {
 			await Axios.post(url, info).then((res) => {
 				console.log('Successfully posted new feedbak')
-				console.log(res)
 				props.onHide();
 			});
 		} catch (err) {
 			console.log("Error while posting new feedbak");
-			console.log(err)
 		}
 	};
 

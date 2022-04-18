@@ -42,9 +42,9 @@ const NavbarContainer = () => {
 							userData.user.username ?
 								<NavDropdown title={userData.user.username} id="username-nav-dropdown" className="white-text">
 									<NavDropdown.Item href={`#/user/${userData.user._id}`} >Profile</NavDropdown.Item>
-									<NavDropdown.Item href="#">Feedbaks</NavDropdown.Item>
+									{/* <NavDropdown.Item href={"#"}>Feedbaks</NavDropdown.Item> */}
 									<NavDropdown.Divider />
-									<NavDropdown.Item href="#" onClick={() => doLogout()}>Logout</NavDropdown.Item>
+									<NavDropdown.Item href="#/" onClick={() => doLogout()}>Logout</NavDropdown.Item>
 								</NavDropdown> :
 								<>
 									<Nav.Link className="white-text" eventKey={4} as={Link} to="#" onClick={() => setShowLogin(1)} >
