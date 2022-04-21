@@ -9,7 +9,7 @@ const PartnerPreview = ({ partnerInfo }) => {
 	const businessURL = "/business/" + partnerInfo._id;
 	const name = partnerInfo.name;
 	const logo = partnerInfo.logo;
-
+ 
 	return (
 		<Col className="cardPadding">
 			<Link to={businessURL}>

@@ -29,7 +29,7 @@ const Post = ({ postInfo, admin }) => {
 
 	return (
 		<>
-			<Card className='p-4'>
+			<Card className="p-4 post-style">
 				<h2>{title}</h2>
 				<h3>{author}</h3>
 				<p>{post}</p>
