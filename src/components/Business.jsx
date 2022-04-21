@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Container, Button } from 'react-bootstrap';
 import Post from './Post';
@@ -6,12 +6,14 @@ import Axios from 'axios';
 import { API_URL } from '../utils/constants';
 import "../css/NavbarContainer.scss"
 import WriteReviewModal from './WriteReviewModal'
+import UserContext from "../utils/UserContext.js";
 
 const Business = (props) => {
 	const [posts, setPosts] = useState([]);
 	const [showReviewModal, setShowReviewModal] = useState(false)
 
 	const { id } = useParams();
+	const { userData, setUserData } = useContext(UserContext);
 
 	const getPostsData = async () => {
 		const url = API_URL + '/posts/all/' + id;
@@ -34,7 +36,7 @@ const Business = (props) => {
 				<Row xs={1} md={2} className="">
 					{posts.map((info, idx) => (
 						<Col key={idx} className="py-3 px-5">
-							<Post key={idx} postInfo={info} />
+							<Post key={idx} postInfo={info} admin={userData.user.admin}/>
 						</Col>
 					))}
 				</Row>
