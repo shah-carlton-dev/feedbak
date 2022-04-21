@@ -7,7 +7,7 @@ import { API_URL } from '../utils/constants';
 import "../css/NavbarContainer.scss"
 import WriteReviewModal from './WriteReviewModal'
 import UserContext from "../utils/UserContext.js";
-
+import {Link} from 'react-router-hash-link';
 const Business = (props) => {
 	const [posts, setPosts] = useState([]);
 	const [businessData, setBusinessData] = useState([]);
@@ -15,7 +15,6 @@ const Business = (props) => {
 
 	const { id } = useParams();
 	const { userData, setUserData } = useContext(UserContext);
-
 	const getPostsData = async () => {
 		const url = API_URL + '/posts/all/' + id;
 		try {
@@ -28,7 +27,7 @@ const Business = (props) => {
 	const getBusinessData = async () => {
 		const url = API_URL + '/businesses/' + id;
 		try {
-		  await Axios.get(url).then(res => {setBusinessData(res.data); console.log(businessData);});
+		  await Axios.get(url).then(res => {setBusinessData(res.data);});
 		} catch (err) {
 		  console.log("Error retrieving business list")
 		}
@@ -45,7 +44,7 @@ const Business = (props) => {
 			<Container fluid className="">
 				<Row>
 					<h1 className="text-center">{businessData.name}</h1>
-					<Button onClick={() => setShowReviewModal(!showReviewModal)}> New Feedbak </Button>
+					
 				</Row>
 
 				<Row>
@@ -60,20 +59,52 @@ const Business = (props) => {
 					</Col>
 					<Col md={3} className="businessRightCol">
 						<Row className="businessRightRow">
+							<Button className="purple-button" onClick={() => setShowReviewModal(!showReviewModal)}> New Feedbak </Button>
 							<Col xl={12}>
 								<div className="businessSide">
-									<h3>About</h3>
+								<Card>
+									<Card.Body>
+										<Card.Title>{businessData.name}</Card.Title>
+										<Card.Subtitle className="mb-2 text-muted">{businessData.dateJoined}</Card.Subtitle>
+										<Card.Text>
+											{businessData.about}
+										</Card.Text>
+										<Card.Link href={businessData.website} target="_blank">website</Card.Link>
+									</Card.Body>
+								</Card>
 								</div>
 								
 							</Col>
 							<Col xl={12}>
 								<div className="businessSide">
-									<h3>Map</h3>
+								<Card>
+									<Card.Body>
+										<Card.Title>Map</Card.Title>
+										<Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+										<Card.Text>
+										Some quick example text to build on the card title and make up the bulk of
+										the card's content.
+										</Card.Text>
+										<Card.Link href="#">Card Link</Card.Link>
+										<Card.Link href="#">Another Link</Card.Link>
+									</Card.Body>
+								</Card>
 								</div>
 							</Col>
 							<Col xl={12}>
 								<div className="businessSide">
-									<h3>Top Feedbaks</h3>
+								<Card>
+									<Card.Body>
+										<Card.Title>Feedback</Card.Title>
+										<Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+										<Card.Text>
+										Some quick example text to build on the card title and make up the bulk of
+										the card's content.
+										</Card.Text>
+										<Card.Link href="#">Card Link</Card.Link>
+										<Card.Link href="#">Another Link</Card.Link>
+									</Card.Body>
+								</Card>
 								</div>
 							</Col>
 						</Row>

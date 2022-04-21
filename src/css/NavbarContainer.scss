@@ -4,52 +4,58 @@
 //     background-color: #242424;
 // }
 
-p, h1, h2, h3, h4, h5, h6, th, td, a, ul, li{
+p, h2, h3, h4, h5, h6, th, td, a, ul, li{
     font-family: "Roboto Mono", monospace;
-    color: #7d7d7d !important;
+    color: #242424 !important;
+  } 
+  h1 {
+    font-family: "Roboto Mono", monospace;
+    color: rgb(135, 77, 232) !important;
   }
-
 .text-black {
     color: #242424;
 } 
 #searchBar {
-    border: 2px solid purple;
+    border: 2px solid rgb(135, 77, 232);
     border-radius: 30px;
     line-height: 3;
     background-color: rgba(255,255,255,0.6);
     text-align: center;
-    color: purple;
+    color: rgb(135, 77, 232);
 }
 #searchBar:hover {
     background-color: rgba(255,255,255,0.9);
 }
 
 #searchBar::placeholder {
-    color: purple;
+    color: rgb(135, 77, 232);
 }
 .imageBox {
     min-height: 10rem; 
     background-color: rgba(255,255,255,0.5);
     padding-left: 10%;
     padding-right: 10%;
-    border: 1px solid purple;
+    border: 2px solid rgb(135, 77, 232);
     border-radius: 40px;
 }
-.imageBox:hover {
+.imageBox:hover { 
     background-color: rgba(255,255,255,0.9);
 }
 .businessSide {
     min-height: 10rem;
-    background-color: rgba(255,255,255,0.5);
-    border: 1px solid purple;
     border-radius: 2px;
     margin-top: 4px;
     margin-bottom: 4px;
 }
 
 .py-3-custom {
-    padding-top: 4px !important;
+    padding-top: 0px !important;
     padding-bottom: 1rem !important;
+}
+
+.post-style {
+    background-color: rgba(255,255,255,0.9) !important;
+    border: 1px solid rgb(135, 77, 232) !important;
 }
 
 @media only screen and (min-width: 600px) {
@@ -72,18 +78,18 @@ p, h1, h2, h3, h4, h5, h6, th, td, a, ul, li{
     color: #7d7d7d !important;
 }
 .button-grey {
-    background-color: rgb(163,110,252) !important;
+    background-color: rgb(135, 77, 232) !important;
     border-color: #7d7d7d !important;
 }
 .background-color {
-    background-image: radial-gradient( rgb(235,238,247),rgb(163,110,252));
+    background-image: radial-gradient( rgb(237,240,249),rgb(249,245,255));
     min-height: 100vh;
 }
 #username-nav-dropdown {
-    color: rgb(245,246,247) !important;
+    color: rgb(135, 77, 232) !important;
 }
 .white-text {
-    color: rgb(245,246,247) !important;
+    color: rgb(135, 77, 232) !important;
 }
 // .dark {
 //     background-color: #242424 !important;   
@@ -94,7 +100,14 @@ p, h1, h2, h3, h4, h5, h6, th, td, a, ul, li{
 .grey {
     background-color: #7d7d7d !important; 
 }
-
+.btn-primary {
+    background-color:rgb(135, 77, 232) !important;
+    color: white !important;
+    border-color: rgb(135, 77, 232) !important;
+}
+.new-post {
+    border-radius: 40px !important;
+}
 .button-light {
     text-decoration: none;
     font-family: "Roboto Mono", monospace;
