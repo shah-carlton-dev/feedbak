@@ -77,11 +77,6 @@ const Business = (props) => {
 				<Row>
 					<Col md={9} id="scroll-meeee" className="businessLeftCol">
 						<Row>
-<<<<<<< Updated upstream
-							{posts.map((info, idx) => (
-							<Col key={idx} className="py-3-custom px-5-custom">
-								<Post key={idx} postInfo={info} admin={userData.user.admin} user={userData.user._id} />
-=======
 							<Col className="py-3-custom px-5">
 								{buttons.map((button, idx) => (
 									<ToggleButton
@@ -96,7 +91,6 @@ const Business = (props) => {
 										{button.title}
 									</ToggleButton>
 								))}
->>>>>>> Stashed changes
 							</Col>
 						</Row>
 						<Row>
