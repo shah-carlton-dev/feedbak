@@ -1,6 +1,6 @@
 import React from 'react';
 import Axios from 'axios'
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Row, Col } from 'react-bootstrap';
 import { API_URL } from "../utils/constants";
 
 const Post = ({ postInfo, admin }) => {
@@ -30,17 +30,23 @@ const Post = ({ postInfo, admin }) => {
 	return (
 		<>
 			<Card className="p-4 post-style">
-				<h2>{title}</h2>
-				<h3>{author}</h3>
-				<p>{post}</p>
-				<p>{score}</p>
-				<p>{featured ? 'featured' : 'not featured'}</p>
-				<p>{date}</p>
-				{admin && <Button onClick={() => handleMakeFeatured()}>Make featured</Button>}
-				<br />
-				<Button onClick={() => sendScoreChangeReq(true)}>Upvote</Button>
-				<br />
-				<Button onClick={() => sendScoreChangeReq(false)}>Downvote</Button>
+				<Row>
+					<Col xl="8">
+					<h2>{title}</h2>
+					<h3>{author}</h3>
+					<p>{post}</p>
+					<p>{score}</p>
+					<p>{featured ? 'featured' : 'not featured'}</p>
+					<p>{date}</p>
+					{admin && <Button onClick={() => handleMakeFeatured()}>Make featured</Button>}
+					<br />
+					</Col>
+					<Col xl="4">
+					<Button onClick={() => sendScoreChangeReq(true)}>Upvote</Button>
+					<br />
+					<Button onClick={() => sendScoreChangeReq(false)}>Downvote</Button>
+					</Col>
+				</Row>
 			</Card>
 
 		</>

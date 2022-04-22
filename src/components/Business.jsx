@@ -41,17 +41,17 @@ const Business = (props) => {
 
 	return (
 		<div className="">
-			<Container fluid className="">
-				<Row>
+			<Container  className="">
+				<Row className="bizHeader">
 					<h1 className="text-center">{businessData.name}</h1>
 					
 				</Row>
 
 				<Row>
-					<Col md={9} className="businessLeftCol">
+					<Col md={9} id="scroll-meeee" className="businessLeftCol">
 						<Row>
 							{posts.map((info, idx) => (
-							<Col key={idx} className="py-3-custom px-5">
+							<Col key={idx} className="py-3-custom px-5-custom">
 								<Post key={idx} postInfo={info} admin={userData.user.admin}/>
 							</Col>
 							))}
