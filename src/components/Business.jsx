@@ -52,7 +52,7 @@ const Business = (props) => {
 						<Row>
 							{posts.map((info, idx) => (
 							<Col key={idx} className="py-3-custom px-5-custom">
-								<Post key={idx} postInfo={info} admin={userData.user.admin}/>
+								<Post key={idx} postInfo={info} admin={userData.user.admin} user={userData.user._id} />
 							</Col>
 							))}
 						</Row>

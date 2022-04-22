@@ -1,30 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Axios from 'axios'
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import { API_URL } from "../utils/constants";
 
-const Post = ({ postInfo, admin }) => {
-	console.log(postInfo)
-	const { _id, title, post, score, author, featured, date } = postInfo
+const Post = ({ postInfo, admin, user }) => {
+	// console.log(postInfo)
+	let { _id, title, post, score, author, featured, date } = postInfo
+
+	const [stateScore, setStateScore] = useState(score)
+	const [stateFeatured, setStateFeatured] = useState(featured)
 
 	const handleMakeFeatured = async () => {
-		console.log('make featured')
+		const url = `${API_URL}/posts/updateFeatured/${_id}`
+		const info = { busi: postInfo.business }
+		try {
+			await Axios.put(url, info)
+				.then((res) => {
+					// console.log(res)
+					setStateFeatured(!stateFeatured)
+				});
+		} catch (err) {
+			console.log("Error while attempting featured change");
+		}
+	}
+
+	const sendAdminScoreChange = async (upvote) => {
+		const url = `${API_URL}/posts/updateScore/admin/${_id}`
+		const info = { upvote }
+		try {
+			await Axios.put(url, info)
+				.then((res) => {
+					// console.log(res)
+					setStateScore(res.data.newScore)
+				});
+		} catch (err) {
+			console.log("Error while attempting admin score change");
+		}
 	}
 
 	const sendScoreChangeReq = async (upvote) => {
-		const url = `${API_URL}/posts/update/${_id}`
-		// adjScore = upvote ? score + 1 : score - 1;
-		// const info = { upvote, user: _id }
-		// try {
-		// 	await Axios.put(url, info)
-		// 		.then((res) => {
-		// 			console.log(res)
-		// 			// props.onHide();
-		// 		});
-		// } catch (err) {
-		// 	console.log("Error while attempting password change");
-		// 	setErrMessage(err.response.data.message)
-		// }
+		if (admin) {
+			sendAdminScoreChange(upvote);
+			return;
+		}
+		const url = `${API_URL}/posts/updateScore/${_id}`
+		const info = { upvote, user }
+		try {
+			await Axios.put(url, info)
+				.then((res) => {
+					// console.log(res)
+					setStateScore(res.data.newScore)
+				});
+		} catch (err) {
+			console.log("Error while attempting score change");
+		}
 	}
 
 	return (
@@ -47,7 +76,7 @@ const Post = ({ postInfo, admin }) => {
 					<Button onClick={() => sendScoreChangeReq(false)}>Downvote</Button>
 					</Col>
 				</Row>
-			</Card>
+ 			</Card>
 
 		</>
 	)
