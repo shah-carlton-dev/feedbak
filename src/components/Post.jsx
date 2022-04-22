@@ -4,7 +4,7 @@ import { Card, Button } from 'react-bootstrap';
 import { API_URL } from "../utils/constants";
 
 const Post = ({ postInfo, admin, user }) => {
-	console.log(postInfo)
+	// console.log(postInfo)
 	let { _id, title, post, score, author, featured, date } = postInfo
 
 	const [stateScore, setStateScore] = useState(score)
@@ -16,7 +16,7 @@ const Post = ({ postInfo, admin, user }) => {
 		try {
 			await Axios.put(url, info)
 				.then((res) => {
-					console.log(res)
+					// console.log(res)
 					setStateFeatured(!stateFeatured)
 				});
 		} catch (err) {
@@ -24,13 +24,31 @@ const Post = ({ postInfo, admin, user }) => {
 		}
 	}
 
+	const sendAdminScoreChange = async (upvote) => {
+		const url = `${API_URL}/posts/updateScore/admin/${_id}`
+		const info = { upvote }
+		try {
+			await Axios.put(url, info)
+				.then((res) => {
+					// console.log(res)
+					setStateScore(res.data.newScore)
+				});
+		} catch (err) {
+			console.log("Error while attempting admin score change");
+		}
+	}
+
 	const sendScoreChangeReq = async (upvote) => {
+		if (admin) {
+			sendAdminScoreChange(upvote);
+			return;
+		}
 		const url = `${API_URL}/posts/updateScore/${_id}`
 		const info = { upvote, user }
 		try {
 			await Axios.put(url, info)
 				.then((res) => {
-					console.log(res)
+					// console.log(res)
 					setStateScore(res.data.newScore)
 				});
 		} catch (err) {
