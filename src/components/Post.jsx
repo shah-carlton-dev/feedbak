@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Axios from 'axios'
 import { Card, Button } from 'react-bootstrap';
 import { API_URL } from "../utils/constants";
@@ -7,6 +7,9 @@ const Post = ({ postInfo, admin, user }) => {
 	console.log(postInfo)
 	let { _id, title, post, score, author, featured, date } = postInfo
 
+	const [stateScore, setStateScore] = useState(score)
+	const [stateFeatured, setStateFeatured] = useState(featured)
+
 	const handleMakeFeatured = async () => {
 		const url = `${API_URL}/posts/updateFeatured/${_id}`
 		const info = { busi: postInfo.business }
@@ -14,6 +17,7 @@ const Post = ({ postInfo, admin, user }) => {
 			await Axios.put(url, info)
 				.then((res) => {
 					console.log(res)
+					setStateFeatured(!stateFeatured)
 				});
 		} catch (err) {
 			console.log("Error while attempting featured change");
@@ -27,6 +31,7 @@ const Post = ({ postInfo, admin, user }) => {
 			await Axios.put(url, info)
 				.then((res) => {
 					console.log(res)
+					setStateScore(res.data.newScore)
 				});
 		} catch (err) {
 			console.log("Error while attempting score change");
@@ -39,8 +44,8 @@ const Post = ({ postInfo, admin, user }) => {
 				<h2>{title}</h2>
 				<h3>{author}</h3>
 				<p>{post}</p>
-				<p>{score}</p>
-				<p>{featured ? 'featured' : 'not featured'}</p>
+				<p>{stateScore}</p>
+				<p>{stateFeatured ? 'featured' : 'not featured'}</p>
 				<p>{date}</p>
 				{admin && <Button onClick={() => handleMakeFeatured()}>Toggle featured</Button>}
 				<br />
