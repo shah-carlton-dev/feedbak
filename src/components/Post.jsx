@@ -3,28 +3,34 @@ import Axios from 'axios'
 import { Card, Button } from 'react-bootstrap';
 import { API_URL } from "../utils/constants";
 
-const Post = ({ postInfo, admin }) => {
+const Post = ({ postInfo, admin, user }) => {
 	console.log(postInfo)
-	const { _id, title, post, score, author, featured, date } = postInfo
+	let { _id, title, post, score, author, featured, date } = postInfo
 
 	const handleMakeFeatured = async () => {
-		console.log('make featured')
+		const url = `${API_URL}/posts/updateFeatured/${_id}`
+		const info = { busi: postInfo.business }
+		try {
+			await Axios.put(url, info)
+				.then((res) => {
+					console.log(res)
+				});
+		} catch (err) {
+			console.log("Error while attempting featured change");
+		}
 	}
 
 	const sendScoreChangeReq = async (upvote) => {
-		const url = `${API_URL}/posts/update/${_id}`
-		// adjScore = upvote ? score + 1 : score - 1;
-		// const info = { upvote, user: _id }
-		// try {
-		// 	await Axios.put(url, info)
-		// 		.then((res) => {
-		// 			console.log(res)
-		// 			// props.onHide();
-		// 		});
-		// } catch (err) {
-		// 	console.log("Error while attempting password change");
-		// 	setErrMessage(err.response.data.message)
-		// }
+		const url = `${API_URL}/posts/updateScore/${_id}`
+		const info = { upvote, user }
+		try {
+			await Axios.put(url, info)
+				.then((res) => {
+					console.log(res)
+				});
+		} catch (err) {
+			console.log("Error while attempting score change");
+		}
 	}
 
 	return (
@@ -36,7 +42,7 @@ const Post = ({ postInfo, admin }) => {
 				<p>{score}</p>
 				<p>{featured ? 'featured' : 'not featured'}</p>
 				<p>{date}</p>
-				{admin && <Button onClick={() => handleMakeFeatured()}>Make featured</Button>}
+				{admin && <Button onClick={() => handleMakeFeatured()}>Toggle featured</Button>}
 				<br />
 				<Button onClick={() => sendScoreChangeReq(true)}>Upvote</Button>
 				<br />
