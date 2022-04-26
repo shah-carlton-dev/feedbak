@@ -14,6 +14,8 @@ const Business = (props) => {
 	const [showReviewModal, setShowReviewModal] = useState(false)
 	const [filter, setFilter] = useState('newest')
 
+	const partnerSinceDate = new Date(businessData.dateJoined).toLocaleDateString('en-us', { year: "numeric", month: "short" })
+
 	const { id } = useParams();
 	const { userData, setUserData } = useContext(UserContext);
 	const getPostsData = async () => {
@@ -68,7 +70,7 @@ const Business = (props) => {
 
 	return (
 		<div className="">
-			<Container  className="">
+			<Container className="">
 				<Row className="bizHeader">
 					<h1 className="text-center">{businessData.name}</h1>
 
@@ -109,7 +111,7 @@ const Business = (props) => {
 									<Card>
 										<Card.Body>
 											<Card.Title>{businessData.name}</Card.Title>
-											<Card.Subtitle className="mb-2 text-muted">{businessData.dateJoined}</Card.Subtitle>
+											<Card.Subtitle className="mb-2 text-muted">{`partner since ${partnerSinceDate}`}</Card.Subtitle>
 											<Card.Text>
 												{businessData.about}
 											</Card.Text>

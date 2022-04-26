@@ -5,7 +5,8 @@ import { API_URL } from "../utils/constants";
 
 const Post = ({ postInfo, admin, user }) => {
 	// console.log(postInfo)
-	let { _id, title, post, score, author, featured, date } = postInfo
+	let { _id, title, post, score, authorName, featured, date } = postInfo
+	date = new Date(date).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
 
 	const [stateScore, setStateScore] = useState(score)
 	const [stateFeatured, setStateFeatured] = useState(featured)
@@ -61,22 +62,22 @@ const Post = ({ postInfo, admin, user }) => {
 			<Card className="p-4 post-style">
 				<Row>
 					<Col xl="8">
-					<h2>{title}</h2>
-					<h3>{author}</h3>
-					<p>{post}</p>
-					<p>{score}</p>
-					<p>{featured ? 'featured' : 'not featured'}</p>
-					<p>{date}</p>
-					{admin && <Button onClick={() => handleMakeFeatured()}>Make featured</Button>}
-					<br />
+						<h2>{title}</h2>
+						<h5>{authorName}</h5>
+						<p>{post}</p>
+						<p>{`score: ${score}`}</p>
+						<p>{featured ? 'featured' : 'not featured'}</p>
+						<p>{date}</p>
+						{admin && <Button onClick={() => handleMakeFeatured()}>Make featured</Button>}
+						<br />
 					</Col>
 					<Col xl="4">
-					<Button onClick={() => sendScoreChangeReq(true)}>Upvote</Button>
-					<br />
-					<Button onClick={() => sendScoreChangeReq(false)}>Downvote</Button>
+						<Button onClick={() => sendScoreChangeReq(true)}>Upvote</Button>
+						<br />
+						<Button onClick={() => sendScoreChangeReq(false)}>Downvote</Button>
 					</Col>
 				</Row>
- 			</Card>
+			</Card>
 
 		</>
 	)
