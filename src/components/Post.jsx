@@ -73,7 +73,7 @@ const Post = ({ postInfo, admin, user, updatePost }) => {
 			<Card className="p-4 post-style">
 				<Row>
 					<Col xs="10">
-						<h2>{title}</h2> 
+						<h5>{title}</h5> 
 						<h5>{authorName}</h5>
 						<p>{post}</p>
 						<p>{featured ? 'featured' : 'not featured'}</p>
@@ -82,9 +82,11 @@ const Post = ({ postInfo, admin, user, updatePost }) => {
 						<br />
 					</Col>
 					<Col xs="2" className="my-auto justify-content-center">
+						<div className="post-right">
 							<Button className="post-button-arrow" onClick={() => sendScoreChangeReq(true)}>⬆️</Button>
 							<span className="post-score">{stateScore}</span>
 							<Button className="post-button-arrow" onClick={() => sendScoreChangeReq(false)}>⬇️</Button>
+						</div>
 					</Col>
 				</Row>
 			</Card>
