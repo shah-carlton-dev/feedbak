@@ -37,13 +37,17 @@ const Business = (props) => {
 		}
 	}
 
-	const updatePosts = (id, isScore, update) => {
+	const updatePost = (id, isScore, update) => {
 		let temp = [...posts]
 		let post = temp.find(e => e._id === id)
 		isScore ? (post.score = update) : (post.featured = update)
 		let newPostsList = temp.filter(e => e._id !== id)
 		newPostsList.push(post)
 		newPostsList = setPosts(sortPosts(newPostsList))
+	}
+
+	const getPostById = (id) => {
+		return posts.filter(e => e._id === id);
 	}
 
 	useEffect(() => {
@@ -101,6 +105,62 @@ const Business = (props) => {
 		// );
 	}
 
+	const handleMakeFeatured = async (id) => {
+		const postInfo = getPostById(id)
+		const url = `${API_URL}/posts/updateFeatured/${id}`
+		const info = { busi: postInfo.business }
+		const originalStatus = postInfo.featured
+		try {
+			await Axios.put(url, info)
+				.then((res) => {
+					// update featured 
+				});
+		} catch (err) {
+			console.log("Error while attempting featured change");
+		} finally {
+			updatePost(id, false, !originalStatus)
+		}
+	}
+
+	const sendAdminScoreChange = async (upvote, id) => {
+		const postInfo = getPostById(id)
+		const url = `${API_URL}/posts/updateScore/admin/${id}`
+		const info = { upvote }
+		let newScore;
+		try {
+			await Axios.put(url, info)
+				.then((res) => {
+					newScore = res.data.newScore
+					setStateScore(newScore)
+				});
+		} catch (err) {
+			console.log("Error while attempting admin score change");
+		} finally {
+			updatePost(id, true, newScore)
+		}
+	}
+
+	const sendScoreChange = async (upvote, id) => {
+		if (admin) {
+			sendAdminScoreChange(upvote);
+			return;
+		}
+		const url = `${API_URL}/posts/updateScore/${id}`
+		const info = { upvote, user }
+		let newScore;
+		try {
+			await Axios.put(url, info)
+				.then((res) => {
+					newScore = res.data.newScore
+					setStateScore(newScore)
+				});
+		} catch (err) {
+			console.log("Error while attempting score change");
+		} finally {
+			updatePost(id, true, newScore)
+		}
+	}
+
 	return (
 		<div className="">
 			<Container className="">
@@ -131,13 +191,14 @@ const Business = (props) => {
 						</Row>
 						<Row>
 							{posts.map((info, idx) => (
-								<Col xl="12" key={idx} className="py-3-custom px-5">
+								<Col xl="8" key={idx} className="py-3-custom px-5">
 									<Post
 										key={idx}
 										postInfo={info}
 										admin={userData.user.admin}
 										user={userData.user._id}
-										updatePost={(id, isScore, update) => updatePosts(id, isScore, update)}
+										handleMakeFeatured={(id) => handleMakeFeatured(id)}
+										sendScoreChange={(upvote, id) => sendScoreChange(upvote, id)}
 									/>
 								</Col>
 							))}
