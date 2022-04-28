@@ -7,17 +7,18 @@ import { API_URL } from '../utils/constants';
 import "../css/NavbarContainer.scss"
 import WriteReviewModal from './WriteReviewModal'
 import UserContext from "../utils/UserContext.js";
-import { Link } from 'react-router-hash-link';
+
 const Business = (props) => {
 	const [posts, setPosts] = useState([]);
 	const [businessData, setBusinessData] = useState([]);
 	const [showReviewModal, setShowReviewModal] = useState(false)
 	const [filter, setFilter] = useState('newest')
 
-	const partnerSinceDate = new Date(businessData.dateJoined).toLocaleDateString('en-us', { year: "numeric", month: "short" })
+	const partnerSinceDate = new Date(businessData.dateJoined).toLocaleDateString('en-us', { year: "numeric", month: "long" })
 
 	const { id } = useParams();
 	const { userData, setUserData } = useContext(UserContext);
+
 	const getPostsData = async () => {
 		const url = API_URL + '/posts/all/' + id;
 		try {
@@ -36,36 +37,68 @@ const Business = (props) => {
 		}
 	}
 
+	const updatePosts = (id, isScore, update) => {
+		let temp = [...posts]
+		let post = temp.find(e => e._id === id)
+		isScore ? (post.score = update) : (post.featured = update)
+		let newPostsList = temp.filter(e => e._id !== id)
+		newPostsList.push(post)
+		newPostsList = setPosts(sortPosts(newPostsList))
+	}
+
 	useEffect(() => {
 		getPostsData();
 		getBusinessData();
-		console.log(businessData);
 	}, []);
+
+	// useEffect(() => {
+	// 	sortPosts();
+	// }, [filter]);
 
 	const buttons = [
 		{
-			title: 'hot',
+			title: 'hot 🔥',
+			key: 'hot',
 			onClick: () => setFilter('hot')
 		}, {
-			title: 'oldest',
+			title: 'oldest 📉',
+			key: 'oldest',
 			onClick: () => setFilter('oldest')
 		}, {
-			title: 'newest',
+			title: "newest 📈",
+			key: 'newest',
 			onClick: () => setFilter('newest')
 		}
 	];
 
-	const sortPosts = () => {
-		let temp = [...posts]
+	const sortPosts = (postsList) => {
+		let temp = [...postsList]
+		let sorted;
 		if (filter === 'hot') {
-			return temp.sort(function (a, b) {
+			sorted = temp.sort(function (a, b) {
 				return b.score - a.score;
-			});
+			})
 		} else if (filter === 'oldest') {
-			return temp.sort(function (a, b) {
-				return a;
-			});
+			sorted = temp.sort(function (a, b) {
+				return Date.parse(a.date) - Date.parse(b.date)
+			})
+		} else if (filter === 'newest') {
+			sorted = temp.sort(function (a, b) {
+				return Date.parse(b.date) - Date.parse(a.date)
+			})
 		}
+		console.log(sorted)
+		return (sorted)
+	}
+
+	const handleFilterChange = async (key, onClick) => {
+		onClick();
+		// await getPostsData().then(
+		// 	data => {
+		// 		console.log(data)
+		// 		sortPosts(data)
+		// 	}
+		// );
 	}
 
 	return (
@@ -82,13 +115,14 @@ const Business = (props) => {
 							<Col className="py-3-custom px-5">
 								{buttons.map((button, idx) => (
 									<ToggleButton
+										className="mx-2"
 										key={idx}
 										type="radio"
 										variant="secondary"
 										name="radio"
-										value={button.title}
-										checked={button.title == filter}
-										onClick={(e) => button.onClick()}
+										value={button.key}
+										checked={button.key == filter}
+										onClick={(e) => handleFilterChange(button.key, () => button.onClick())}
 									>
 										{button.title}
 									</ToggleButton>
@@ -97,8 +131,14 @@ const Business = (props) => {
 						</Row>
 						<Row>
 							{posts.map((info, idx) => (
-								<Col key={idx} className="py-3-custom px-5">
-									<Post key={idx} postInfo={info} admin={userData.user.admin} user={userData.user._id} />
+								<Col xl="8" key={idx} className="py-3-custom px-5">
+									<Post
+										key={idx}
+										postInfo={info}
+										admin={userData.user.admin}
+										user={userData.user._id}
+										updatePost={(id, isScore, update) => updatePosts(id, isScore, update)}
+									/>
 								</Col>
 							))}
 						</Row>
