@@ -131,7 +131,7 @@ const Business = (props) => {
 						</Row>
 						<Row>
 							{posts.map((info, idx) => (
-								<Col xl="8" key={idx} className="py-3-custom px-5">
+								<Col xl="12" key={idx} className="py-3-custom px-5">
 									<Post
 										key={idx}
 										postInfo={info}

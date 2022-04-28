@@ -56,7 +56,7 @@ const Post = ({ postInfo, admin, user, updatePost }) => {
 		const info = { upvote, user }
 		let newScore;
 		try {
-			await Axios.put(url, info)
+			await Axios.put(url, info) 
 				.then((res) => {
 					newScore = res.data.newScore
 					setStateScore(newScore)
@@ -72,20 +72,19 @@ const Post = ({ postInfo, admin, user, updatePost }) => {
 		<>
 			<Card className="p-4 post-style">
 				<Row>
-					<Col xl="8">
-						<h2>{title}</h2>
+					<Col xs="10">
+						<h2>{title}</h2> 
 						<h5>{authorName}</h5>
 						<p>{post}</p>
-						<p>{`score: ${stateScore}`}</p>
 						<p>{featured ? 'featured' : 'not featured'}</p>
 						<p>{date}</p>
 						{admin && <Button onClick={() => handleMakeFeatured()}>Make featured</Button>}
 						<br />
 					</Col>
-					<Col xl="4">
-						<Button onClick={() => sendScoreChangeReq(true)}>Upvote</Button>
-						<br />
-						<Button onClick={() => sendScoreChangeReq(false)}>Downvote</Button>
+					<Col xs="2" className="my-auto justify-content-center">
+							<Button className="post-button-arrow" onClick={() => sendScoreChangeReq(true)}>⬆️</Button>
+							<span className="post-score">{stateScore}</span>
+							<Button className="post-button-arrow" onClick={() => sendScoreChangeReq(false)}>⬇️</Button>
 					</Col>
 				</Row>
 			</Card>
