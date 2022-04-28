@@ -43,7 +43,7 @@ const Business = (props) => {
 		isScore ? (post.score = update) : (post.featured = update)
 		let newPostsList = temp.filter(e => e._id !== id)
 		newPostsList.push(post)
-		newPostsList = setPosts(sortPosts(newPostsList))
+		newPostsList = sortPosts(newPostsList)
 	}
 
 	const getPostById = (id) => {
