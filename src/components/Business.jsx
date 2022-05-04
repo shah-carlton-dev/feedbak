@@ -7,38 +7,17 @@ import { API_URL } from '../utils/constants';
 import "../css/NavbarContainer.scss"
 import WriteReviewModal from './WriteReviewModal'
 import UserContext from "../utils/UserContext.js";
-import { compileString } from 'sass';
 
-const Business = () => {
-	const { userData, setUserData } = useContext(UserContext);
-
+const Business = (props) => {
 	const [posts, setPosts] = useState([]);
 	const [businessData, setBusinessData] = useState([]);
 	const [showReviewModal, setShowReviewModal] = useState(false)
 	const [filter, setFilter] = useState('newest')
 
 	const partnerSinceDate = new Date(businessData.dateJoined).toLocaleDateString('en-us', { year: "numeric", month: "long" })
-	const { id } = useParams();
-	const buttons = [
-		{
-			title: 'hot 🔥',
-			key: 'hot',
-			onClick: () => setFilter('hot')
-		}, {
-			title: 'oldest 📉',
-			key: 'oldest',
-			onClick: () => setFilter('oldest')
-		}, {
-			title: "newest 📈",
-			key: 'newest',
-			onClick: () => setFilter('newest')
-		}
-	];
 
-	useEffect(() => {
-		getPostsData();
-		getBusinessData();
-	}, []);
+	const { id } = useParams();
+	const { userData, setUserData } = useContext(UserContext);
 
 	const getPostsData = async () => {
 		const url = API_URL + '/posts/all/' + id;
@@ -58,6 +37,44 @@ const Business = () => {
 		}
 	}
 
+	const updatePost = (id, isScore, update) => {
+		let temp = [...posts]
+		let post = temp.find(e => e._id === id)
+		isScore ? (post.score = update) : (post.featured = update)
+		let newPostsList = temp.filter(e => e._id !== id)
+		newPostsList.push(post)
+		newPostsList = sortPosts(newPostsList)
+	}
+
+	const getPostById = (id) => {
+		return posts.filter(e => e._id === id);
+	}
+
+	useEffect(() => {
+		getPostsData();
+		getBusinessData();
+	}, []);
+
+	// useEffect(() => {
+	// 	sortPosts();
+	// }, [filter]);
+
+	const buttons = [
+		{
+			title: 'hot 🔥',
+			key: 'hot',
+			onClick: () => setFilter('hot')
+		}, {
+			title: 'oldest 📉',
+			key: 'oldest',
+			onClick: () => setFilter('oldest')
+		}, {
+			title: "newest 📈",
+			key: 'newest',
+			onClick: () => setFilter('newest')
+		}
+	];
+
 	const sortPosts = (postsList) => {
 		let temp = [...postsList]
 		let sorted;
@@ -76,6 +93,16 @@ const Business = () => {
 		}
 		console.log(sorted)
 		return (sorted)
+	}
+
+	const handleFilterChange = async (key, onClick) => {
+		onClick();
+		// await getPostsData().then(
+		// 	data => {
+		// 		console.log(data)
+		// 		sortPosts(data)
+		// 	}
+		// );
 	}
 
 	const handleMakeFeatured = async (id) => {
@@ -134,35 +161,6 @@ const Business = () => {
 		}
 	}
 
-	const updatePost = (id, isScore, update) => {
-		let temp = [...posts]
-		let post = posts.find(e => {
-			// console.log(e)
-			// console.log(id)
-			e._id == id
-		})
-		console.log(post)
-		isScore ? (post.score = update) : (post.featured = update)
-		let newPostsList = temp.filter(e => e._id !== id)
-		newPostsList.push(post)
-		newPostsList = sortPosts(newPostsList)
-		setPosts(newPostsList)
-	}
-
-	const handleFilterChange = async (key, onClick) => {
-		onClick();
-		// await getPostsData().then(
-		// 	data => {
-		// 		console.log(data)
-		// 		sortPosts(data)
-		// 	}
-		// );
-	}
-
-	const getPostById = (id) => {
-		return posts.filter(e => e._id === id);
-	}
-
 	return (
 		<div className="">
 			<Container className="">
@@ -198,6 +196,7 @@ const Business = () => {
 										key={idx}
 										postInfo={info}
 										admin={userData.user.admin}
+										user={userData.user._id}
 										handleMakeFeatured={(id) => handleMakeFeatured(id)}
 										sendScoreChange={(upvote, id) => sendScoreChange(upvote, id)}
 									/>
