@@ -61,15 +61,15 @@ const Business = (props) => {
 
 	const buttons = [
 		{
-			title: 'hot 🔥',
+			title: 'hot',
 			key: 'hot',
 			onClick: () => setFilter('hot')
 		}, {
-			title: 'oldest 📉',
+			title: 'oldest',
 			key: 'oldest',
 			onClick: () => setFilter('oldest')
 		}, {
-			title: "newest 📈",
+			title: "newest",
 			key: 'newest',
 			onClick: () => setFilter('newest')
 		}

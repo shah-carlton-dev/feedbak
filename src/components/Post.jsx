@@ -82,9 +82,9 @@ const Post = ({ postInfo, admin, user, updatePost }) => {
 						<br />
 					</Col>
 					<Col xs="2" className="my-auto justify-content-center">
-						<Button className="post-button-arrow" onClick={() => sendScoreChange(true, _id)}>⬆️</Button>
+						<Button className="post-button-arrow" onClick={() => sendScoreChange(true, _id)}>up</Button>
 						<span className="post-score">{score}</span>
-						<Button className="post-button-arrow" onClick={() => sendScoreChange(false, _id)}>⬇️</Button>
+						<Button className="post-button-arrow" onClick={() => sendScoreChange(false, _id)}>down</Button>
 					</Col>
 				</Row>
 			</Card>
