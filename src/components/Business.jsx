@@ -8,7 +8,10 @@ import "../css/NavbarContainer.scss"
 import WriteReviewModal from './WriteReviewModal'
 import UserContext from "../utils/UserContext.js";
 
-const Business = ({ user }) => {
+const Business = (props) => {
+
+	const { id } = useParams();
+	const { userData, setUserData } = useContext(UserContext);
 
 	// variables to be used throughout component
 	const [posts, setPosts] = useState([]);
@@ -16,8 +19,6 @@ const Business = ({ user }) => {
 	const [showReviewModal, setShowReviewModal] = useState(false)
 	const [filter, setFilter] = useState('newest')
 	const partnerSinceDate = new Date(businessData.dateJoined).toLocaleDateString('en-us', { year: "numeric", month: "long" })
-	const { id } = useParams();
-	const { userData, setUserData } = useContext(UserContext);
 
 	// effects on page load 
 	useEffect(() => {
@@ -59,8 +60,6 @@ const Business = ({ user }) => {
 		} catch (err) {
 			console.log(err)
 			console.log("Error while attempting featured change");
-		} finally {
-			updatePost(id, false, newStatus)
 		}
 	}
 
@@ -78,8 +77,6 @@ const Business = ({ user }) => {
 		} catch (err) {
 			console.log("Error while attempting admin score change");
 			console.log(err)
-		} finally {
-			updatePost(id, true, newScore)
 		}
 	}
 	const sendScoreChange = async (upvote, id, updateScore) => {
@@ -98,19 +95,7 @@ const Business = ({ user }) => {
 				});
 		} catch (err) {
 			console.log("Error while attempting score change");
-		} finally {
-			updatePost(id, true, newScore)
 		}
-	}
-
-	// after get/set, update post info
-	const updatePost = (id, isScore, update) => {
-		let temp = [...posts]
-		let post = temp.find(e => e._id === id)
-		isScore ? (post.score = update) : (post.featured = update)
-		let newPostsList = temp.filter(e => e._id !== id)
-		newPostsList.push(post)
-		newPostsList = sortPosts(filter, newPostsList)
 	}
 
 	// sort posts after getting a new list
@@ -130,11 +115,11 @@ const Business = ({ user }) => {
 				(a, b) => Date.parse(b.date) - Date.parse(a.date)
 			)
 		}
-		return (sorted)
+		return sorted
 	}
 
 	const handleNewFeedbakButton = async () => {
-		if(!userData?.user?._id) {
+		if (!userData?.user?._id) {
 			// TODO: sign up or log in to wrire new feedbak
 			return;
 		}
@@ -144,8 +129,10 @@ const Business = ({ user }) => {
 	// on filter change
 	const handleFilterChange = async (key) => {
 		setFilter(key);
-		let new_data =  posts;
-		setPosts(sortPosts(key, new_data))
+		let new_data = await posts;
+		const sortedPosts = sortPosts(key, new_data)
+		setPosts([])
+		setPosts(sortedPosts)
 	}
 
 	// helper function to get post by id from list
@@ -172,11 +159,10 @@ const Business = ({ user }) => {
 			<Container className="">
 				<Row className="bizHeader">
 					<h1 className="text-center">{businessData.name}</h1>
-
 				</Row>
 
 				<Row>
-					<Col xs={{order: 2}} md={{span: 9, order: 1}}  id="scroll-meeee" className="businessLeftCol">
+					<Col xs={{ order: 2 }} md={{ span: 9, order: 1 }} id="scroll-meeee" className="businessLeftCol">
 						<Row>
 							<Col className="py-3-custom px-5">
 								{buttons.map((button, idx) => (
@@ -190,7 +176,7 @@ const Business = ({ user }) => {
 										checked={button.title == filter}
 										onClick={(e) => handleFilterChange(button.title)}
 									>
-										{button.title} &nbsp; {button.emoji}
+										{button.title} &#8198; {button.emoji}
 									</ToggleButton>
 								))}
 							</Col>
@@ -207,7 +193,6 @@ const Business = ({ user }) => {
 												user={userData.user._id}
 												handleMakeFeatured={(id, updateFn) => handleMakeFeatured(id, updateFn)}
 												sendScoreChange={(upvote, id, updateScore) => sendScoreChange(upvote, id, updateScore)}
-											// updatePost={(id, isScore, update) => updatePost(id, isScore, update)}
 											/>
 										</Col>
 									)) :
@@ -216,7 +201,7 @@ const Business = ({ user }) => {
 
 						</Row>
 					</Col>
-					<Col xs={{order: 1}} md={{span: 3, order: 2}} className="businessRightCol">
+					<Col xs={{ order: 1 }} md={{ span: 3, order: 2 }} className="businessRightCol">
 						<Row className="businessRightRow">
 							<Button className="purple-button" onClick={() => handleNewFeedbakButton()}> New Feedbak </Button>
 							<Col xl={12}>

@@ -2,15 +2,38 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://kit.fontawesome.com/62c0753caf.js" crossorigin="anonymous"></script>
-    <title>Feedbak</title>
+	<title>Feedbak</title>
 </head>
 
 <body>
-    <div id="root"></div>
+	<div id="root"></div>
+	<script type="module">
+		// Import the functions you need from the SDKs you need
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+		import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js";
+		// TODO: Add SDKs for Firebase products that you want to use
+		// https://firebase.google.com/docs/web/setup#available-libraries
+
+		// Your web app's Firebase configuration
+		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+		const firebaseConfig = {
+			apiKey: "AIzaSyCx1QB-IzBvHlupnhH2ncuZ_oowvzvbhR4",
+			authDomain: "feedbak-d1e27.firebaseapp.com",
+			projectId: "feedbak-d1e27",
+			storageBucket: "feedbak-d1e27.appspot.com",
+			messagingSenderId: "624560296726",
+			appId: "1:624560296726:web:6f92d1b8f00ce5607ff637",
+			measurementId: "G-0HMQYN889Q"
+		};
+
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const analytics = getAnalytics(app);
+	</script>
 </body>
 
 </html>

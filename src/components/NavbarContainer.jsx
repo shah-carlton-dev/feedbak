@@ -54,7 +54,7 @@ const NavbarContainer = () => {
 
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="/business/:id" element={<Business user={userData.user} />} />
+				<Route path="/business/:id" element={<Business />} />
 				<Route path="/user/:id" element={<UserProfile />} />
 			</Routes>
 
