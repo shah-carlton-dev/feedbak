@@ -79,7 +79,7 @@ function SignupForm({ hide }) {
 			await Axios.post(url, info).then((res) => {
 				console.log('Successfully created user')
 				setUserData(res.data)
-				hide();
+				hide(true);
 			});
 		} catch (err) {
 			console.log("Error while attempting signup");
@@ -89,6 +89,7 @@ function SignupForm({ hide }) {
 	return (
 		<Modal.Body>
 			<h4>Signup</h4>
+			<p>Creating an account allows you to vote on existing feedbak and create your own feedbak</p>
 			<Form onSubmit={e => handleSignupSubmit(e)}>
 				<Form.Group className="mb-3" controlId="usernameField">
 					<Form.Label>Username</Form.Label>
@@ -117,23 +118,22 @@ function SignupForm({ hide }) {
 }
 
 function LoginSignupModal(props) {
-	const login = props.open
-	const [open, setOpen] = useState(0);
+	const [open, setOpen] = useState(props.open);
 
 	return (
 		<Modal {...props} size="md" aria-labelledby="login-signup-modal"  >
 			<ToggleButtonGroup type="radio" name="options" defaultValue={props.open}>
-				<ToggleButton id="loginsignup-radio-login" value={1} onClick={() => setOpen(1)}>
+				<ToggleButton id="loginsignup-radio-login" className={open === 1 ? `` : `not-selected`} value={1} checked={open === 1} onClick={() => setOpen(1)}>
 					Login
 				</ToggleButton>
-				<ToggleButton id="loginsignup-radio-signup" value={2} onClick={() => setOpen(2)}>
+				<ToggleButton id="loginsignup-radio-signup" className={open === 2 ? `` : `not-selected`} value={2} checked={open === 2} onClick={() => setOpen(2)}>
 					Signup
 				</ToggleButton>
 			</ToggleButtonGroup>
 			{
 				(open || login) === 1
-					? <LoginForm hide={() => props.onHide()} />
-					: <SignupForm hide={() => props.onHide()} />
+					? <LoginForm hide={(x) => props.onHide(x)} />
+					: <SignupForm hide={(x) => props.onHide(x)} />
 			}
 			<Modal.Footer>
 				<Button onClick={() => props.onHide()}>Close</Button>

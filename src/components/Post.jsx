@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Axios from 'axios'
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Button, ToggleButton, ButtonGroup, Row, Col } from 'react-bootstrap';
 import { API_URL } from "../utils/constants";
 
-const Post = ({ postInfo, admin, user, updatePost }) => {
+const Post = ({ postInfo, admin, user, handleMakeFeatured, sendScoreChange, inProfile }) => {
 	// console.log(postInfo)
 	let { _id, title, post, score, authorName, featured, date } = postInfo
 	date = new Date(date)
@@ -13,79 +13,58 @@ const Post = ({ postInfo, admin, user, updatePost }) => {
 
 	const [stateScore, setStateScore] = useState(score)
 	const [stateFeatured, setStateFeatured] = useState(featured)
+	const [voteStatus, setVoteStatus] = useState((postInfo.upvoters.includes(user)) ? 1 : ((postInfo.downvoters.includes(user)) ? -1 : 0))
 
-	const handleMakeFeatured = async () => {
-		const url = `${API_URL}/posts/updateFeatured/${_id}`
-		const info = { busi: postInfo.business }
-		const originalStatus = stateFeatured
-		try {
-			await Axios.put(url, info)
-				.then((res) => {
-					setStateFeatured(!originalStatus)
-				});
-		} catch (err) {
-			console.log("Error while attempting featured change");
-		} finally {
-			updatePost(_id, false, !originalStatus)
-		}
+	const updateScore = (newScore) => {
+		setStateScore(newScore)
 	}
 
-	const sendAdminScoreChange = async (upvote) => {
-		const url = `${API_URL}/posts/updateScore/admin/${_id}`
-		const info = { upvote }
-		let newScore;
-		try {
-			await Axios.put(url, info)
-				.then((res) => {
-					newScore = res.data.newScore
-					setStateScore(newScore)
-				});
-		} catch (err) {
-			console.log("Error while attempting admin score change");
-		} finally {
-			updatePost(_id, true, newScore)
-		}
+	const updateFeatured = (isFeatured) => {
+		setStateFeatured(isFeatured)
 	}
 
-	const sendScoreChangeReq = async (upvote) => {
-		if (admin) {
-			sendAdminScoreChange(upvote);
-			return;
+
+	const handleButtonClick = (upvote, id, scoreUpdateFn) => {
+		if (!user) {
+			// TODO: sign up or log in to vote on existing feedbak
+			return
 		}
-		const url = `${API_URL}/posts/updateScore/${_id}`
-		const info = { upvote, user }
-		let newScore;
-		try {
-			await Axios.put(url, info) 
-				.then((res) => {
-					newScore = res.data.newScore
-					setStateScore(newScore)
-				});
-		} catch (err) {
-			console.log("Error while attempting score change");
-		} finally {
-			updatePost(_id, true, newScore)
+		if (((voteStatus > 0 && upvote) || (voteStatus < 0 && !upvote)) && !admin) {
+			setVoteStatus(0)
+		} else if (voteStatus > -1 && !upvote) {
+			setVoteStatus(-1)
+		} else if (voteStatus < 1 && upvote) {
+			setVoteStatus(1)
 		}
+		sendScoreChange(upvote, id, scoreUpdateFn)
 	}
 
 	return (
 		<>
 			<Card className="p-4 post-style">
 				<Row>
-					<Col xs="10">
-						<h5>{title}</h5> 
+					<Col xl="10">
+						<h5>{title}</h5>
 						<h5>{authorName}</h5>
 						<p>{post}</p>
-						<p>{featured ? 'featured' : 'not featured'}</p>
+						<p>{stateFeatured ? <i className="fa-solid fa-star"></i> : ''}</p>
 						<p>{date}</p>
-						{admin && <Button onClick={() => handleMakeFeatured()}>Make featured</Button>}
+						{admin && <Button onClick={() => handleMakeFeatured(_id, (x) => updateFeatured(x))}>Toggle featured</Button>}
 						<br />
 					</Col>
 					<Col xs="2" className="my-auto justify-content-center">
-						<Button className="post-button-arrow" onClick={() => sendScoreChange(true, _id)}>up</Button>
-						<span className="post-score">{score}</span>
-						<Button className="post-button-arrow" onClick={() => sendScoreChange(false, _id)}>down</Button>
+						{
+							inProfile ?
+								<span className="post-score">{stateScore}</span>
+								:
+								<ButtonGroup>
+									<ToggleButton className={`post-button-arrow ${voteStatus < 1 ? 'not-selected' : ''}`} onClick={() => handleButtonClick(true, _id, (x) => updateScore(x))} checked={voteStatus === 1}><i className="fa-solid fa-angle-up"></i></ToggleButton>
+									&nbsp;<span className="post-score">{stateScore}</span>&nbsp;
+									<ToggleButton className={`post-button-arrow ${voteStatus > -1 ? 'not-selected' : ''}`} onClick={() => handleButtonClick(false, _id, (x) => updateScore(x))} checked={voteStatus === -1}><i className="fa-solid fa-angle-down"></i></ToggleButton>
+								</ButtonGroup>
+						}
 					</Col>
+
 				</Row>
 			</Card>
 

@@ -4,26 +4,20 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 
 import Home from "./Home";
 import Business from "./Business";
-import Searchbar from "./SearchBar";
 import LoginSignupModal from "./LoginSignupModal";
 import UserProfile from './UserProfile.jsx'
+import WelcomeModal from './WelcomeModal.jsx'
 
 import "../css/NavbarContainer.scss";
 
 import UserContext from "../utils/UserContext.js";
-import { createPortal } from "react-dom/cjs/react-dom.development";
 
 const NavbarContainer = () => {
-	//   const [toggled, setToggled] = useState(false);
-	//   const handleTogglePress = (e) => {
-	//     setToggled(!toggled);
-	//     toggled
-	//       ? $("#registerbtn").css("display", "inline-block")
-	//       : $("#registerbtn").css("display", "none");
-	//   };
+
 	const { userData, setUserData } = useContext(UserContext);
 
 	const [showLogin, setShowLogin] = useState(0);
+	const [showWelcome, setShowWelcome] = useState(false)
 
 	const doLogout = () => {
 		localStorage.removeItem('auth-token');
@@ -58,28 +52,30 @@ const NavbarContainer = () => {
 					</Navbar>
 				</Container>
 			</Navbar>
-			{/* <Router> */}
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/business/:id" element={<Business />} />
-					<Route path="/user/:id" element={<UserProfile user={userData.user} />} />
-				</Routes>
-			{/* </Router> */}
+
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/business/:id" element={<Business user={userData.user} />} />
+				<Route path="/user/:id" element={<UserProfile user={userData.user} />} />
+			</Routes>
+
 			{
 				showLogin !== 0 ? (
 					showLogin === 1 ?
 						<LoginSignupModal
 							show={true}
 							open={1}
-							onHide={() => setShowLogin(0)}
+							onHide={(successfulSignup) => { setShowLogin(0); if (successfulSignup) setShowWelcome(true) }}
 						/> :
 						<LoginSignupModal
 							show={true}
 							open={2}
-							onHide={() => setShowLogin(0)}
+							onHide={(successfulSignup) => { setShowLogin(0); if (successfulSignup) setShowWelcome(true) }}
 						/>
 				) : null
 			}
+
+			<WelcomeModal show={showWelcome} onHide={() => setShowWelcome(false)} />
 
 		</div>
 	);

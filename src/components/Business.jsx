@@ -8,26 +8,33 @@ import "../css/NavbarContainer.scss"
 import WriteReviewModal from './WriteReviewModal'
 import UserContext from "../utils/UserContext.js";
 
-const Business = (props) => {
+const Business = ({ user }) => {
+
+	// variables to be used throughout component
 	const [posts, setPosts] = useState([]);
 	const [businessData, setBusinessData] = useState([]);
 	const [showReviewModal, setShowReviewModal] = useState(false)
 	const [filter, setFilter] = useState('newest')
-
 	const partnerSinceDate = new Date(businessData.dateJoined).toLocaleDateString('en-us', { year: "numeric", month: "long" })
-
 	const { id } = useParams();
 	const { userData, setUserData } = useContext(UserContext);
 
+	// effects on page load 
+	useEffect(() => {
+		getPostsData();
+		getBusinessData();
+	}, []);
+
+	// get requests to server
 	const getPostsData = async () => {
 		const url = API_URL + '/posts/all/' + id;
 		try {
 			await Axios.get(url).then(res => setPosts(res.data));
 		} catch (err) {
 			console.log("error retrieving posts list");
+			console.log(err)
 		}
 	}
-
 	const getBusinessData = async () => {
 		const url = API_URL + '/businesses/' + id;
 		try {
@@ -37,93 +44,28 @@ const Business = (props) => {
 		}
 	}
 
-	const updatePost = (id, isScore, update) => {
-		let temp = [...posts]
-		let post = temp.find(e => e._id === id)
-		isScore ? (post.score = update) : (post.featured = update)
-		let newPostsList = temp.filter(e => e._id !== id)
-		newPostsList.push(post)
-		newPostsList = sortPosts(newPostsList)
-	}
-
-	const getPostById = (id) => {
-		return posts.filter(e => e._id === id);
-	}
-
-	useEffect(() => {
-		getPostsData();
-		getBusinessData();
-	}, []);
-
-	// useEffect(() => {
-	// 	sortPosts();
-	// }, [filter]);
-
-	const buttons = [
-		{
-			title: 'hot',
-			key: 'hot',
-			onClick: () => setFilter('hot')
-		}, {
-			title: 'oldest',
-			key: 'oldest',
-			onClick: () => setFilter('oldest')
-		}, {
-			title: "newest",
-			key: 'newest',
-			onClick: () => setFilter('newest')
-		}
-	];
-
-	const sortPosts = (postsList) => {
-		let temp = [...postsList]
-		let sorted;
-		if (filter === 'hot') {
-			sorted = temp.sort(function (a, b) {
-				return b.score - a.score;
-			})
-		} else if (filter === 'oldest') {
-			sorted = temp.sort(function (a, b) {
-				return Date.parse(a.date) - Date.parse(b.date)
-			})
-		} else if (filter === 'newest') {
-			sorted = temp.sort(function (a, b) {
-				return Date.parse(b.date) - Date.parse(a.date)
-			})
-		}
-		console.log(sorted)
-		return (sorted)
-	}
-
-	const handleFilterChange = async (key, onClick) => {
-		onClick();
-		// await getPostsData().then(
-		// 	data => {
-		// 		console.log(data)
-		// 		sortPosts(data)
-		// 	}
-		// );
-	}
-
-	const handleMakeFeatured = async (id) => {
+	// set requests to server
+	const handleMakeFeatured = async (id, updateFeatured) => {
 		const postInfo = getPostById(id)
 		const url = `${API_URL}/posts/updateFeatured/${id}`
 		const info = { busi: postInfo.business }
-		const originalStatus = postInfo.featured
+		let newStatus
 		try {
 			await Axios.put(url, info)
 				.then((res) => {
-					// update featured 
+					newStatus = res.data.isFeatured
+					updateFeatured(newStatus)
 				});
 		} catch (err) {
+			console.log(err)
 			console.log("Error while attempting featured change");
 		} finally {
-			updatePost(id, false, !originalStatus)
+			updatePost(id, false, newStatus)
 		}
 	}
 
-	const sendAdminScoreChange = async (upvote, id) => {
-		const postInfo = getPostById(id)
+	const sendAdminScoreChange = async (upvote, id, updateScore) => {
+		// const postInfo = getPostById(id)
 		const url = `${API_URL}/posts/updateScore/admin/${id}`
 		const info = { upvote }
 		let newScore;
@@ -131,28 +73,29 @@ const Business = (props) => {
 			await Axios.put(url, info)
 				.then((res) => {
 					newScore = res.data.newScore
-					setStateScore(newScore)
+					updateScore(newScore)
 				});
 		} catch (err) {
 			console.log("Error while attempting admin score change");
+			console.log(err)
 		} finally {
 			updatePost(id, true, newScore)
 		}
 	}
-
-	const sendScoreChange = async (upvote, id) => {
-		if (admin) {
-			sendAdminScoreChange(upvote);
+	const sendScoreChange = async (upvote, id, updateScore) => {
+		if (userData.user.admin) {
+			sendAdminScoreChange(upvote, id, updateScore);
 			return;
 		}
 		const url = `${API_URL}/posts/updateScore/${id}`
-		const info = { upvote, user }
+		const info = { upvote, user: userData.user._id }
 		let newScore;
 		try {
 			await Axios.put(url, info)
 				.then((res) => {
+					console.log(res)
 					newScore = res.data.newScore
-					setStateScore(newScore)
+					updateScore(newScore)
 				});
 		} catch (err) {
 			console.log("Error while attempting score change");
@@ -160,6 +103,70 @@ const Business = (props) => {
 			updatePost(id, true, newScore)
 		}
 	}
+
+	// after get/set, update post info
+	const updatePost = (id, isScore, update) => {
+		let temp = [...posts]
+		let post = temp.find(e => e._id === id)
+		isScore ? (post.score = update) : (post.featured = update)
+		let newPostsList = temp.filter(e => e._id !== id)
+		newPostsList.push(post)
+		newPostsList = sortPosts(filter, newPostsList)
+	}
+
+	// sort posts after getting a new list
+	const sortPosts = (key, postsList) => {
+		let temp = [...postsList]
+		let sorted;
+		if (key === 'hot') {
+			sorted = temp.sort(
+				(a, b) => b.score - a.score
+			)
+		} else if (key === 'oldest') {
+			sorted = temp.sort(
+				(a, b) => Date.parse(a.date) - Date.parse(b.date)
+			)
+		} else if (key === 'newest') {
+			sorted = temp.sort(
+				(a, b) => Date.parse(b.date) - Date.parse(a.date)
+			)
+		}
+		return (sorted)
+	}
+
+	const handleNewFeedbakButton = async () => {
+		if(!userData?.user?._id) {
+			// TODO: sign up or log in to wrire new feedbak
+			return;
+		}
+		setShowReviewModal(!showReviewModal)
+	}
+
+	// on filter change
+	const handleFilterChange = async (key) => {
+		setFilter(key);
+		let new_data = await posts;
+		setPosts(sortPosts(key, new_data))
+	}
+
+	// helper function to get post by id from list
+	const getPostById = (id) => {
+		return posts.filter(e => e._id === id);
+	}
+
+	// buttons array to be mapped
+	const buttons = [
+		{
+			title: 'hot',
+			emoji: <i className="fa-solid fa-fire-flame-curved"></i>,
+		}, {
+			title: 'oldest',
+			emoji: <i className="fa-solid fa-arrow-trend-down"></i>,
+		}, {
+			title: 'newest',
+			emoji: <i className="fa-solid fa-arrow-trend-up"></i>,
+		}
+	];
 
 	return (
 		<div className="">
@@ -180,33 +187,39 @@ const Business = (props) => {
 										type="radio"
 										variant="secondary"
 										name="radio"
-										value={button.key}
-										checked={button.key == filter}
-										onClick={(e) => handleFilterChange(button.key, () => button.onClick())}
+										value={button.title}
+										checked={button.title == filter}
+										onClick={(e) => handleFilterChange(button.title)}
 									>
-										{button.title}
+										{button.title} &nbsp; {button.emoji}
 									</ToggleButton>
 								))}
 							</Col>
 						</Row>
 						<Row>
-							{posts.map((info, idx) => (
-								<Col xl="8" key={idx} className="py-3-custom px-5">
-									<Post
-										key={idx}
-										postInfo={info}
-										admin={userData.user.admin}
-										user={userData.user._id}
-										handleMakeFeatured={(id) => handleMakeFeatured(id)}
-										sendScoreChange={(upvote, id) => sendScoreChange(upvote, id)}
-									/>
-								</Col>
-							))}
+							{
+								posts.length > 0 ?
+									posts.map((info, idx) => (
+										<Col xl="12" key={idx} className="py-3-custom px-5">
+											<Post
+												key={idx}
+												postInfo={info}
+												admin={userData.user.admin}
+												user={userData.user._id}
+												handleMakeFeatured={(id, updateFn) => handleMakeFeatured(id, updateFn)}
+												sendScoreChange={(upvote, id, updateScore) => sendScoreChange(upvote, id, updateScore)}
+											// updatePost={(id, isScore, update) => updatePost(id, isScore, update)}
+											/>
+										</Col>
+									)) :
+									<Col className="text-center"><h5>No Feedbak yet!</h5></Col>
+							}
+
 						</Row>
 					</Col>
 					<Col md={3} className="businessRightCol">
 						<Row className="businessRightRow">
-							<Button className="purple-button" onClick={() => setShowReviewModal(!showReviewModal)}> New Feedbak </Button>
+							<Button className="purple-button" onClick={() => handleNewFeedbakButton()}> New Feedbak </Button>
 							<Col xl={12}>
 								<div className="businessSide">
 									<Card>
@@ -216,7 +229,7 @@ const Business = (props) => {
 											<Card.Text>
 												{businessData.about}
 											</Card.Text>
-											<Card.Link href={businessData.website} target="_blank">website</Card.Link>
+											<Card.Link href={businessData.website} target="_blank" className="business-website"><i className="fa-solid fa-globe"></i>&nbsp;website</Card.Link>
 										</Card.Body>
 									</Card>
 								</div>

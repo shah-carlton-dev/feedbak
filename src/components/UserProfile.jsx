@@ -76,7 +76,7 @@ function ChangePasswordModal(props) {
 	)
 }
 
-const Business = (props) => {
+const UserProfile = (props) => {
 	const { id } = useParams();
 	const { userData, setUserData } = useContext(UserContext);
 
@@ -93,12 +93,13 @@ const Business = (props) => {
 					});
 				} catch (err) {
 					console.log("error retrieving user's posts");
+					console.log(err);
 				}
 			})
 		} catch (err) {
 			// error is before userData populates
 		}
-		
+
 	}
 
 	useEffect(() => {
@@ -108,7 +109,7 @@ const Business = (props) => {
 	return (
 		<div className="">
 			<Container className="">
-				<h1 className="text-center">User!</h1>
+				<h1 className="text-center">Your Profile</h1>
 				<p>
 					{`username: ${userData.user.username}`}
 					<br />
@@ -118,10 +119,10 @@ const Business = (props) => {
 					<br />
 				</p>
 				<h3>Your Feedbak</h3>
-				<Row xs={1} md={2} className="">
+				<Row xs={1} md={2} className="px-auto">
 					{reviews.map((info, idx) => (
-						<Col key={idx} className="py-3 px-5">
-							<Post key={idx} postInfo={info} />
+						<Col xl={12} key={idx} className="py-3 px-5">
+							<Post key={idx} postInfo={info} inProfile={true} />
 						</Col>
 					))}
 				</Row>
@@ -133,4 +134,4 @@ const Business = (props) => {
 	)
 }
 
-export default Business;
+export default UserProfile;
