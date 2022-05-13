@@ -4,7 +4,6 @@ import { Card, Button, ToggleButton, ButtonGroup, Row, Col } from 'react-bootstr
 import { API_URL } from "../utils/constants";
 
 const Post = ({ postInfo, admin, user, handleMakeFeatured, sendScoreChange, inProfile }) => {
-	// console.log(postInfo)
 	let { _id, title, post, score, authorName, featured, date } = postInfo
 	date = new Date(date)
 		.toLocaleDateString('en-us',

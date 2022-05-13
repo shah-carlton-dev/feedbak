@@ -36,7 +36,6 @@ const NavbarContainer = () => {
 							userData.user.username ?
 								<NavDropdown title={userData.user.username} id="username-nav-dropdown" className="white-text">
 									<NavDropdown.Item href={`#/user/${userData.user._id}`} className="white-text">Profile</NavDropdown.Item>
-									{/* <NavDropdown.Item href={"#"}>Feedbaks</NavDropdown.Item> */}
 									<NavDropdown.Divider />
 									<NavDropdown.Item href="#/" onClick={() => doLogout()} className="white-text">Logout</NavDropdown.Item>
 								</NavDropdown> :
@@ -56,7 +55,7 @@ const NavbarContainer = () => {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/business/:id" element={<Business user={userData.user} />} />
-				<Route path="/user/:id" element={<UserProfile user={userData.user} />} />
+				<Route path="/user/:id" element={<UserProfile />} />
 			</Routes>
 
 			{

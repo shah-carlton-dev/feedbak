@@ -93,7 +93,6 @@ const Business = ({ user }) => {
 		try {
 			await Axios.put(url, info)
 				.then((res) => {
-					console.log(res)
 					newScore = res.data.newScore
 					updateScore(newScore)
 				});
@@ -145,7 +144,7 @@ const Business = ({ user }) => {
 	// on filter change
 	const handleFilterChange = async (key) => {
 		setFilter(key);
-		let new_data = await posts;
+		let new_data =  posts;
 		setPosts(sortPosts(key, new_data))
 	}
 
@@ -177,7 +176,7 @@ const Business = ({ user }) => {
 				</Row>
 
 				<Row>
-					<Col md={9} id="scroll-meeee" className="businessLeftCol">
+					<Col xs={{order: 2}} md={{span: 9, order: 1}}  id="scroll-meeee" className="businessLeftCol">
 						<Row>
 							<Col className="py-3-custom px-5">
 								{buttons.map((button, idx) => (
@@ -217,7 +216,7 @@ const Business = ({ user }) => {
 
 						</Row>
 					</Col>
-					<Col md={3} className="businessRightCol">
+					<Col xs={{order: 1}} md={{span: 3, order: 2}} className="businessRightCol">
 						<Row className="businessRightRow">
 							<Button className="purple-button" onClick={() => handleNewFeedbakButton()}> New Feedbak </Button>
 							<Col xl={12}>
@@ -240,13 +239,10 @@ const Business = ({ user }) => {
 									<Card>
 										<Card.Body>
 											<Card.Title>Map</Card.Title>
-											<Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+											<Card.Subtitle className="mb-2 text-muted">Find a location</Card.Subtitle>
 											<Card.Text>
-												Some quick example text to build on the card title and make up the bulk of
-												the card's content.
+												This can have a map of nearby locations. Not too hard but will require addresses for all existing and future businesses.
 											</Card.Text>
-											<Card.Link href="#">Card Link</Card.Link>
-											<Card.Link href="#">Another Link</Card.Link>
 										</Card.Body>
 									</Card>
 								</div>
@@ -255,14 +251,11 @@ const Business = ({ user }) => {
 								<div className="businessSide">
 									<Card>
 										<Card.Body>
-											<Card.Title>Feedback</Card.Title>
-											<Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+											<Card.Title>Featured Feedbak</Card.Title>
+											<Card.Subtitle className="mb-2 text-muted">See previous features</Card.Subtitle>
 											<Card.Text>
-												Some quick example text to build on the card title and make up the bulk of
-												the card's content.
+												Will fill this in with some previously featured Feedbaks for this business.
 											</Card.Text>
-											<Card.Link href="#">Card Link</Card.Link>
-											<Card.Link href="#">Another Link</Card.Link>
 										</Card.Body>
 									</Card>
 								</div>
