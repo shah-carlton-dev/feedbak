@@ -44,10 +44,10 @@ const Post = ({ postInfo, admin, user, handleMakeFeatured, sendScoreChange, inPr
 			<Card className="p-4 post-style">
 				<Row>
 					<Col xl="10">
-						<h5>{title}</h5>
+						<h4>{title}&nbsp;&nbsp;{stateFeatured ? <i className="fa-solid fa-star"></i> : ''}</h4>
 						<h5>{authorName}</h5>
 						<p>{post}</p>
-						<p>{stateFeatured ? <i className="fa-solid fa-star"></i> : ''}</p>
+						<p></p>
 						<p>{date}</p>
 						{admin && <Button onClick={() => handleMakeFeatured(_id, (x) => updateFeatured(x))}>Toggle featured</Button>}
 						<br />
