@@ -148,18 +148,17 @@ const UserProfile = (props) => {
 
 	const getPostsData = async () => {
 		try {
-			userData.user.reviews.forEach(async id => {
-				const url = API_URL + '/posts/one/' + id;
-				try {
-					await Axios.get(url).then(res => {
-						setReviews([...reviews, res.data])
-					});
-				} catch (err) {
-					console.log("error retrieving user's posts");
-					console.log(err);
-				}
-			})
-		} catch (err) {
+			const url = API_URL + '/posts/user/' + id;
+			try {
+				await Axios.get(url).then(res => {
+					setReviews(res.data)
+				});
+			} catch (err) {
+				console.log("error retrieving user's posts");
+				console.log(err);
+			}
+		}
+		catch (err) {
 			// error is before userData populates
 			console.log(err)
 		}
