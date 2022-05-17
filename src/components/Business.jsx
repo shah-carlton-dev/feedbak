@@ -165,20 +165,22 @@ const Business = (props) => {
 					<Col xs={{ order: 2 }} md={{ span: 9, order: 1 }} id="scroll-meeee" className="businessLeftCol">
 						<Row>
 							<Col className="py-3-custom px-5">
-								{buttons.map((button, idx) => (
-									<ToggleButton
-										className="mx-2"
-										key={idx}
-										type="radio"
-										variant="secondary"
-										name="radio"
-										value={button.title}
-										checked={button.title == filter}
-										onClick={(e) => handleFilterChange(button.title)}
-									>
-										{button.title} &#8198; {button.emoji}
-									</ToggleButton>
-								))}
+								<div className="filter-buttons-container">
+									{buttons.map((button, idx) => (
+										<ToggleButton
+											className="mx-2"
+											key={idx}
+											type="radio"
+											variant="secondary"
+											name="radio"
+											value={button.title}
+											checked={button.title == filter}
+											onClick={(e) => handleFilterChange(button.title)}
+										>
+											{button.title} &#8198; {button.emoji}
+										</ToggleButton>
+									))}
+								</div>
 							</Col>
 						</Row>
 						<Row>
@@ -219,7 +221,7 @@ const Business = (props) => {
 								</div>
 
 							</Col>
-							<Col xl={12}>
+							{/* <Col xl={12}>
 								<div className="businessSide">
 									<Card>
 										<Card.Body>
@@ -231,7 +233,7 @@ const Business = (props) => {
 										</Card.Body>
 									</Card>
 								</div>
-							</Col>
+							</Col> */}
 							<Col xl={12}>
 								<div className="businessSide">
 									<Card>

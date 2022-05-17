@@ -5,15 +5,18 @@ import "../css/Home.scss";
 import UserContext from "../utils/UserContext.js";
 
 const Home = () => {
-  const { userData, setUserData } = useContext(UserContext);
+	const { userData, setUserData } = useContext(UserContext);
 
-  return (
-    <div className="">
-      <div className="partnersPadding">
-        <Partners />
-      </div>
-    </div>
-  );
+	return (
+		<div className="">
+			{/* <div>
+				blurb go here
+			</div> */}
+			<div className="partnersPadding">
+				<Partners />
+			</div>
+		</div>
+	);
 };
 
 export default Home;

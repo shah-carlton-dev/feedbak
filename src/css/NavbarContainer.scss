@@ -117,6 +117,32 @@ h1 {
 	}
 }
 
+@media only screen and (max-width: 450px) {
+	.filter-buttons-container {
+		text-align: center;
+		padding-top: .5rem !important;
+	}
+
+	.mx-2.btn.btn-secondary {
+		padding: 0.375rem 0.4rem !important;
+	}
+
+	div.businessRightRow.row {
+		max-width: 85%;
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+
+	div.businessRightRow.row>button {
+		margin-bottom: 1vh;
+	}
+}
+
+.change-pass-btn {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
 .text-grey {
 	color: #7d7d7d !important;
 }
@@ -209,7 +235,7 @@ a.business-website:link {
 }
 
 .not-selected {
-	background-color:#d5b8ff !important;
+	background-color: #d5b8ff !important;
 }
 
 

@@ -70,7 +70,7 @@ function ChangePasswordModal(props) {
 				</Form>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button onClick={() => props.onHide()}>Close</Button>
+				<Button onClick={() => props.onHide()}>Cancel</Button>
 			</Modal.Footer>
 		</Modal>
 	)
@@ -173,12 +173,13 @@ const UserProfile = (props) => {
 		<div className="">
 			<Container className="">
 				<h1 className="text-center">Your Profile</h1>
+				<h3>Your Info</h3>
 				<p>
 					{`username: ${userData.user.username}`}
 					<br />
 					{`email: ${userData.user.email}`}
 					<br />
-					<Button onClick={() => setShowChangePassword(true)}>Change Password</Button>
+					<Button className="change-pass-btn" variant='link' onClick={() => setShowChangePassword(true)}>Change Password</Button>
 					<br />
 				</p>
 				<h3>Your Feedbak</h3>
