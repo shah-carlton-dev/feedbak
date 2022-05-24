@@ -2,3 +2,5 @@
 .DS_store
 *.code-workspace
 my_notes.txt
+/dist
+/.firebase
