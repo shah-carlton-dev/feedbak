@@ -42,30 +42,41 @@ const Post = ({ postInfo, admin, user, handleMakeFeatured, sendScoreChange, inPr
 	return (
 		<>
 			<Card className="p-4 post-style">
-				<Row>
-					<Col xl="10">
-						<h4>{title}&nbsp;&nbsp;{stateFeatured ? <i className="fa-solid fa-star"></i> : ''}</h4>
-						<h5>{authorName}</h5>
-						<p>{post}</p>
-						<p></p>
-						<p>{date}</p>
-						{admin && <Button onClick={() => handleMakeFeatured(_id, (x) => updateFeatured(x))}>Toggle featured</Button>}
-						<br />
-					</Col>
-					<Col xs="2" className="my-auto justify-content-center">
-						{
-							inProfile ?
-								<span className="post-score">{stateScore}</span>
-								:
-								<ButtonGroup>
-									<ToggleButton className={`post-button-arrow ${voteStatus < 1 ? 'not-selected' : ''}`} onClick={() => handleButtonClick(true, _id, (x) => updateScore(x))} checked={voteStatus === 1}><i className="fa-solid fa-angle-up"></i></ToggleButton>
-									&nbsp;<span className="post-score">{stateScore}</span>&nbsp;
-									<ToggleButton className={`post-button-arrow ${voteStatus > -1 ? 'not-selected' : ''}`} onClick={() => handleButtonClick(false, _id, (x) => updateScore(x))} checked={voteStatus === -1}><i className="fa-solid fa-angle-down"></i></ToggleButton>
-								</ButtonGroup>
-						}
-					</Col>
+				<Card.Body>
+					<Row>
+						<Col md="9" sm={12}>
+							<h4>{title}&nbsp;&nbsp;{stateFeatured ? <i className="fa-solid fa-star"></i> : ''}</h4>
+							<p>{post}</p>
+							<p></p>
 
-				</Row>
+							{admin && <Button onClick={() => handleMakeFeatured(_id, (x) => updateFeatured(x))}>Toggle featured</Button>}
+							<br />
+						</Col>
+						<Col md="3" sm={12} className="mx-auto px-0 justify-content-center text-center">
+							{
+								inProfile ?
+									<span className="post-score">{stateScore}</span>
+									:
+									<ButtonGroup >
+										<ToggleButton className={`post-button-arrow ${voteStatus < 1 ? 'not-selected' : ''}`} onClick={() => handleButtonClick(true, _id, (x) => updateScore(x))} checked={voteStatus === 1}><i className="fa-solid fa-angle-up"></i></ToggleButton>
+										&nbsp;<span className="post-score">{stateScore}</span>&nbsp;
+										<ToggleButton className={`post-button-arrow ${voteStatus > -1 ? 'not-selected' : ''}`} onClick={() => handleButtonClick(false, _id, (x) => updateScore(x))} checked={voteStatus === -1}><i className="fa-solid fa-angle-down"></i></ToggleButton>
+									</ButtonGroup>
+							}
+						</Col>
+
+					</Row>
+				</Card.Body>
+				<Card.Footer className="text-center">
+					<Row>
+						<Col xl={6} md={12}>
+							{authorName}
+						</Col>
+						<Col xl={6} md={12}>
+							{date}
+						</Col>
+					</Row>
+				</Card.Footer>
 			</Card>
 			<SuggestLoginModal
 				show={suggestLogin}
