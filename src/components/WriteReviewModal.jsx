@@ -39,12 +39,12 @@ function WriteReviewModal(props) {
 					<Form.Group className="mb-3" controlId="titleField">
 						<Form.Label>Title</Form.Label>
 						<Form.Control type="text" placeholder="Give your feedbak a short and sweet title"
-							onChange={(e) => title = (e.target.value)}
+							onChange={(e) => title = (e.target.value)} autoFocus
 						/>
 					</Form.Group>
 					<Form.Group className="mb-3" controlId="bodyField">
 						<Form.Label>Feedbak Body</Form.Label>
-						<Form.Control as="textarea" rows={3} placeholder="Now add some substance" 
+						<Form.Control as="textarea" rows={3} placeholder="Now add some substance"
 							onChange={(e) => post = (e.target.value)}
 						/>
 					</Form.Group>

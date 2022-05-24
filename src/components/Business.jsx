@@ -7,6 +7,7 @@ import { API_URL } from '../utils/constants';
 import "../css/NavbarContainer.scss"
 import WriteReviewModal from './WriteReviewModal'
 import UserContext from "../utils/UserContext.js";
+import SuggestLoginModal from './SuggestLoginModal';
 
 const Business = (props) => {
 
@@ -18,6 +19,8 @@ const Business = (props) => {
 	const [businessData, setBusinessData] = useState([]);
 	const [showReviewModal, setShowReviewModal] = useState(false)
 	const [filter, setFilter] = useState('newest')
+	const [suggestLogin, setSuggestLogin] = useState(false)
+
 	const partnerSinceDate = new Date(businessData.dateJoined).toLocaleDateString('en-us', { year: "numeric", month: "long" })
 
 	// effects on page load 
@@ -118,12 +121,12 @@ const Business = (props) => {
 		return sorted
 	}
 
-	const handleNewFeedbakButton = async () => {
+	const handleNewFeedbakButton = () => {
 		if (!userData?.user?._id) {
-			// TODO: sign up or log in to wrire new feedbak
+			setSuggestLogin(true);
 			return;
 		}
-		setShowReviewModal(!showReviewModal)
+		setShowReviewModal(true)
 	}
 
 	// on filter change
@@ -256,6 +259,11 @@ const Business = (props) => {
 				show={showReviewModal}
 				onHide={() => setShowReviewModal(false)}
 				id={id}
+			/>
+			<SuggestLoginModal
+				show={suggestLogin}
+				onHide={() => setSuggestLogin(false)}
+				message={"Log in to write new Feedbak!"}
 			/>
 		</div>
 	)

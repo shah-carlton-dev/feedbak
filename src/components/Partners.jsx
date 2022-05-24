@@ -11,6 +11,8 @@ const Partners = () => {
 	const [partners, setPartners] = useState([]);
 	const [searchResults, setSearchResults] = useState([])
 
+	let searchTerm = '';
+
 	const searchPlaceholder = 'search our partners'
 
 	const getPartnersData = async () => {
@@ -28,6 +30,7 @@ const Partners = () => {
 
 	const searchPartners = (term) => {
 		term = term.toLowerCase()
+		searchTerm = term;
 		let name, about;
 		let results = partners.filter((busi, ix) => {
 			name = busi.name.toLowerCase()
@@ -56,17 +59,19 @@ const Partners = () => {
 				</Col>
 				<Col></Col>
 			</Row>
-			<Row xs={1} md={3} className="text-center">
-				{
-					searchResults.length > 0 ? (
-						searchResults.map((info, idx) => (
+
+			{searchTerm == '' ?
+				searchResults.length > 0 ? (
+					<Row xs={1} md={3} className="text-center">
+						{searchResults.map((info, idx) => (
 							<PartnerPreview key={idx} partnerInfo={info} />
-						))
-					) : (
-						<Col xl={12}>No businesses match search term</Col>
-					)
-				}
-			</Row>
+						))}
+					</Row>
+				) : (
+					<Row xl={12}><p className="text-center py-3">No businesses match search term</p></Row>
+				)
+				: <></>}
+
 		</>
 	);
 };

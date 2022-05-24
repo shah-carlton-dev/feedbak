@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Axios from 'axios'
+import SuggestLoginModal from './SuggestLoginModal'
 import { Card, Button, ToggleButton, ButtonGroup, Row, Col } from 'react-bootstrap';
 import { API_URL } from "../utils/constants";
 
@@ -13,6 +13,7 @@ const Post = ({ postInfo, admin, user, handleMakeFeatured, sendScoreChange, inPr
 	const [stateScore, setStateScore] = useState(score)
 	const [stateFeatured, setStateFeatured] = useState(featured)
 	const [voteStatus, setVoteStatus] = useState((postInfo.upvoters.includes(user)) ? 1 : ((postInfo.downvoters.includes(user)) ? -1 : 0))
+	const [suggestLogin, setSuggestLogin] = useState(false)
 
 	const updateScore = (newScore) => {
 		setStateScore(newScore)
@@ -25,7 +26,7 @@ const Post = ({ postInfo, admin, user, handleMakeFeatured, sendScoreChange, inPr
 
 	const handleButtonClick = (upvote, id, scoreUpdateFn) => {
 		if (!user) {
-			// TODO: sign up or log in to vote on existing feedbak
+			setSuggestLogin(true);
 			return
 		}
 		if (((voteStatus > 0 && upvote) || (voteStatus < 0 && !upvote)) && !admin) {
@@ -66,7 +67,11 @@ const Post = ({ postInfo, admin, user, handleMakeFeatured, sendScoreChange, inPr
 
 				</Row>
 			</Card>
-
+			<SuggestLoginModal
+				show={suggestLogin}
+				onHide={() => setSuggestLogin(false)}
+				message={"Log in to vote on existing Feedbak!"}
+			/>
 		</>
 	)
 }
