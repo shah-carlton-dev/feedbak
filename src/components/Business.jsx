@@ -289,7 +289,8 @@ const Business = (props) => {
 											<Card.Title>Featured Feedbak</Card.Title>
 											<Card.Subtitle className="mb-2 text-muted">See previous features</Card.Subtitle>
 											<Row xl={1} className="g-4">
-												{featuredPosts.map((post, idx) =>
+												{featuredPosts.length > 0 ?
+												featuredPosts.map((post, idx) =>
 													<Col key={`${post._id}_${idx}`}>
 														<Card className="clickable-card" onClick={() => handleFeaturedPostClick(post)}>
 															<Card.Body>
@@ -299,7 +300,9 @@ const Business = (props) => {
 															</Card.Body>
 														</Card>
 													</Col>
-												)}
+												) :
+												<p>No featured posts for this business yet!</p>
+												}
 											</Row>
 										</Card.Body>
 									</Card>
@@ -308,8 +311,8 @@ const Business = (props) => {
 						</Row>
 					</Col>
 				</Row>
-
 			</Container>
+
 			<WriteReviewModal
 				show={showReviewModal}
 				onHide={() => setShowReviewModal(false)}
