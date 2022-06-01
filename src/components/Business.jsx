@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Col, Container, Button, Card, ToggleButton } from 'react-bootstrap';
+import { Row, Col, Container, Button, Card, ToggleButton, Modal } from 'react-bootstrap';
 import Post from './Post';
 import Axios from 'axios';
 import { API_URL } from '../utils/constants';
@@ -16,8 +16,11 @@ const Business = (props) => {
 
 	// variables to be used throughout component
 	const [posts, setPosts] = useState([]);
+	const [featuredPosts, setFeaturedPosts] = useState([]);
 	const [businessData, setBusinessData] = useState([]);
 	const [showReviewModal, setShowReviewModal] = useState(false)
+	const [showFeaturedModal, setShowFeaturedModal] = useState(false)
+	const [featuredPostDisplay, setFeaturedPostDisplay] = useState({})
 	const [filter, setFilter] = useState('newest')
 	const [suggestLogin, setSuggestLogin] = useState(false)
 
@@ -27,6 +30,7 @@ const Business = (props) => {
 	useEffect(() => {
 		getPostsData();
 		getBusinessData();
+		getFeaturedData();
 	}, []);
 
 	// get requests to server
@@ -47,6 +51,17 @@ const Business = (props) => {
 			console.log("Error retrieving business list")
 		}
 	}
+	const getFeaturedData = async () => {
+		const url = API_URL + '/posts/featured/' + id;
+		try {
+			await Axios.get(url).then(res => setFeaturedPosts(res.data));
+		} catch (err) {
+			console.log("error retrieving featured posts list");
+			console.log(err)
+		}
+	}
+
+	console.log(featuredPosts)
 
 	// set requests to server
 	const handleMakeFeatured = async (id, updateFeatured) => {
@@ -138,6 +153,11 @@ const Business = (props) => {
 		setPosts(sortedPosts)
 	}
 
+	const handleFeaturedPostClick = (post) => {
+		setFeaturedPostDisplay(post)
+		setShowFeaturedModal(true)
+	}
+
 	// helper function to get post by id from list
 	const getPostById = (id) => {
 		return posts.filter(e => e._id === id);
@@ -156,6 +176,44 @@ const Business = (props) => {
 			emoji: <i className="fa-solid fa-arrow-trend-up"></i>,
 		}
 	];
+
+	function TruncatedLine({ text }) {
+		return (
+			<span style={{ position: "relative", display: "block" }}>
+				<span style={{ color: "transparent" }}>X</span>
+				<span
+					style={{
+						display: "block",
+						position: "absolute",
+						overflow: "hidden",
+						textOverflow: "ellipsis",
+						whiteSpace: "nowrap",
+						width: "100%",
+						top: 0,
+					}}
+				>
+					{text}
+				</span>
+			</span>
+		);
+	}
+
+	function ViewFeaturedModal(props) {
+		const data = props.data
+		return (
+			<Modal {...props} size="lg" aria-labelledby="view-featured-post-modal"  >
+				<Modal.Body>
+					<p className="text-muted">Viewing a featured Feedbak:</p>
+					<Post key={data._id} postInfo={data} inProfile={true} />
+
+				</Modal.Body>
+				<Modal.Footer xs={12}>
+					<Button onClick={() => props.onHide()}>Close</Button>
+				</Modal.Footer>
+			</Modal>
+		)
+
+	}
 
 	return (
 		<div className="">
@@ -224,28 +282,25 @@ const Business = (props) => {
 								</div>
 
 							</Col>
-							{/* <Col xl={12}>
-								<div className="businessSide">
-									<Card>
-										<Card.Body>
-											<Card.Title>Map</Card.Title>
-											<Card.Subtitle className="mb-2 text-muted">Find a location</Card.Subtitle>
-											<Card.Text>
-												This can have a map of nearby locations. Not too hard but will require addresses for all existing and future businesses.
-											</Card.Text>
-										</Card.Body>
-									</Card>
-								</div>
-							</Col> */}
 							<Col xl={12}>
 								<div className="businessSide">
 									<Card>
 										<Card.Body>
 											<Card.Title>Featured Feedbak</Card.Title>
 											<Card.Subtitle className="mb-2 text-muted">See previous features</Card.Subtitle>
-											<Card.Text>
-												Will fill this in with some previously featured Feedbaks for this business.
-											</Card.Text>
+											<Row xl={1} className="g-4">
+												{featuredPosts.map((post, idx) =>
+													<Col key={`${post._id}_${idx}`}>
+														<Card className="clickable-card" onClick={() => handleFeaturedPostClick(post)}>
+															<Card.Body>
+																<Card.Text>
+																	<TruncatedLine text={post.title} />
+																</Card.Text>
+															</Card.Body>
+														</Card>
+													</Col>
+												)}
+											</Row>
 										</Card.Body>
 									</Card>
 								</div>
@@ -263,8 +318,14 @@ const Business = (props) => {
 			<SuggestLoginModal
 				show={suggestLogin}
 				onHide={() => setSuggestLogin(false)}
-				message={"Log in to write new Feedbak!"}
+				message={"Join or sign in to write new Feedbak!"}
 			/>
+			<ViewFeaturedModal
+				show={showFeaturedModal}
+				data={featuredPostDisplay}
+				onHide={() => setShowFeaturedModal(false)}
+			/>
+
 		</div>
 	)
 }

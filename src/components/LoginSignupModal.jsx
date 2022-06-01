@@ -36,7 +36,7 @@ function LoginForm({ hide }) {
 
 	return (
 		<Modal.Body>
-			<h4>Login</h4>
+			<h4>Sign in</h4>
 			<Form onSubmit={e => handleLoginSubmit(e)}>
 				<Form.Group className="mb-3" controlId="usernameField">
 					<Form.Label>Username</Form.Label>
@@ -88,8 +88,8 @@ function SignupForm({ hide }) {
 	};
 	return (
 		<Modal.Body>
-			<h4>Signup</h4>
-			<p>Creating an account allows you to vote on existing feedbak and create your own feedbak</p>
+			<h4>Join</h4>
+			<p>Creating an account allows you to vote on existing Feedbak and create your own Feedbak</p>
 			<Form onSubmit={e => handleSignupSubmit(e)}>
 				<Form.Group className="mb-3" controlId="usernameField">
 					<Form.Label>Username</Form.Label>
@@ -123,12 +123,13 @@ function LoginSignupModal(props) {
 	return (
 		<Modal {...props} size="md" aria-labelledby="login-signup-modal"  >
 			<ToggleButtonGroup type="radio" name="options" defaultValue={props.open}>
-				<ToggleButton id="loginsignup-radio-login" className={open === 1 ? `` : `not-selected`} value={1} checked={open === 1} onClick={() => setOpen(1)}>
-					Login
-				</ToggleButton>
 				<ToggleButton id="loginsignup-radio-signup" className={open === 2 ? `` : `not-selected`} value={2} checked={open === 2} onClick={() => setOpen(2)}>
-					Signup
+					Join
 				</ToggleButton>
+				<ToggleButton id="loginsignup-radio-login" className={open === 1 ? `` : `not-selected`} value={1} checked={open === 1} onClick={() => setOpen(1)}>
+					Sign in
+				</ToggleButton>
+
 			</ToggleButtonGroup>
 			{
 				(open || login) === 1

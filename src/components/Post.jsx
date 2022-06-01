@@ -81,7 +81,7 @@ const Post = ({ postInfo, admin, user, handleMakeFeatured, sendScoreChange, inPr
 			<SuggestLoginModal
 				show={suggestLogin}
 				onHide={() => setSuggestLogin(false)}
-				message={"Log in to vote on existing Feedbak!"}
+				message={"Join or sign in to vote on existing Feedbak!"}
 			/>
 		</>
 	)

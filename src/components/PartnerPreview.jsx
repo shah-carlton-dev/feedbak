@@ -13,7 +13,7 @@ const PartnerPreview = ({ partnerInfo }) => {
 		<Col className="cardPadding">
 			<Link to={businessURL}>
 				<div className="imageBox align-items-center d-flex">
-					<Image fluid src={logo} />
+					<Image fluid className="image-not-bigger-than-parent" src={logo} />
 				</div>
 			</Link>
 

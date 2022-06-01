@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import AdminSection from './AdminSection'
 import { Row, Col, Container, Button, Modal, Form, Card } from 'react-bootstrap';
 import Post from './Post';
 import Axios from 'axios';
@@ -10,6 +11,7 @@ import "../css/NavbarContainer.scss"
 
 function ChangePasswordModal(props) {
 	const [errMessage, setErrMessage] = useState("")
+
 	let current, newpass, newconf = "";
 	const userid = props.userid
 
@@ -22,7 +24,6 @@ function ChangePasswordModal(props) {
 		const url = `${API_URL}/users/changePassword`
 		const info = { userId: userid, current, newpass }
 		try {
-
 			await Axios.post(url, info)
 				.then((res) => {
 					console.log('Successfully changed password')
@@ -76,75 +77,29 @@ function ChangePasswordModal(props) {
 	)
 }
 
-function AdminSection() {
-	const [errMessage, setErrMessage] = useState('')
-	let name, about, website, logoUrl;
 
-	const handleNewBusiness = async (e) => {
-		e.preventDefault();
-		const url = `${API_URL}/businesses/new`
-		const info = { name, about, website, logoUrl }
-		try {
-			await Axios.post(url, info)
-				.then((res) => {
-					console.log('Successfully created business')
-				});
-		} catch (err) {
-			console.log("Error while attempting business creation");
-
-			setErrMessage(err.response)
-		}
-	}
-
-	return (<>
-		<Card className="mx-auto" >
-			<Card.Header> <h5> Create a new business profile </h5> </Card.Header>
-			<Card.Body>
-				<Form onSubmit={e => handleNewBusiness(e)}>
-					<Form.Group className="mb-3" controlId="nameField">
-						<Form.Label>Name</Form.Label>
-						<Form.Control type="text" placeholder="" autoComplete=""
-							onChange={(e) => name = (e.target.value)}
-						/>
-					</Form.Group>
-					<Form.Group className="mb-3" controlId="aboutField">
-						<Form.Label>About</Form.Label>
-						<Form.Control type="text" placeholder="" autoComplete=""
-							onChange={(e) => about = (e.target.value)}
-						/>
-					</Form.Group>
-					<Form.Group className="mb-3" controlId="websiteField">
-						<Form.Label>Website</Form.Label>
-						<Form.Control type="text" placeholder="" autoComplete=""
-							onChange={(e) => website = (e.target.value)}
-						/>
-					</Form.Group>
-					<Form.Group className="mb-3" controlId="logoUrlField">
-						<Form.Label>Logo URL</Form.Label>
-						<Form.Control type="text" placeholder="" autoComplete=""
-							onChange={(e) => logoUrl = (e.target.value)}
-						/>
-					</Form.Group>
-					<Button variant="primary" type="submit">
-						Create
-					</Button>
-					<Form.Text className="text-muted">
-						{`${errMessage}`}
-					</Form.Text>
-				</Form>
-			</Card.Body>
-		</Card>
-	</>)
-}
 
 const UserProfile = (props) => {
 	const { id } = useParams();
 	const { userData, setUserData } = useContext(UserContext);
+	const admin = userData.user.admin
 
 	const [reviews, setReviews] = useState([])
 	const [showChangePassword, setShowChangePassword] = useState(false)
+	const [partners, setPartners] = useState([])
 
-	const admin = userData.user.admin
+	const getPartnersData = async () => {
+		const url = API_URL + '/businesses/search';
+		try {
+			await Axios.get(url).then(res => { setPartners(res.data); console.log(res.data) });
+		} catch (err) {
+			console.log("Error retrieving business list")
+		}
+	}
+
+	useEffect(() => {
+		getPartnersData();
+	}, []);
 
 	const getPostsData = async () => {
 		try {
@@ -194,7 +149,7 @@ const UserProfile = (props) => {
 					admin && <h3>Admin Features</h3>
 				}
 				{
-					admin && <div className="p-3"><AdminSection /></div>
+					admin && <div className="p-3"><AdminSection partnerList={partners} /></div>
 				}
 			</Container>
 

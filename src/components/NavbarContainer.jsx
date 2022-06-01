@@ -40,12 +40,13 @@ const NavbarContainer = () => {
 									<NavDropdown.Item href="#/" onClick={() => doLogout()} className="white-text">Logout</NavDropdown.Item>
 								</NavDropdown> :
 								<>
-									<Nav.Link className="white-text" eventKey={4} as={Link} to="#" onClick={() => setShowLogin(1)} >
-										Login
-									</Nav.Link>
 									<Nav.Link className="white-text" eventKey={5} as={Link} to="#" onClick={() => setShowLogin(2)} >
-										Signup
+										Join
 									</Nav.Link>
+									<Nav.Link className="white-text" eventKey={4} as={Link} to="#" onClick={() => setShowLogin(1)} >
+										Sign in
+									</Nav.Link>
+
 								</>
 						}
 					</Navbar>
