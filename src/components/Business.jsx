@@ -169,10 +169,10 @@ const Business = (props) => {
 			title: 'hot',
 			emoji: <i className="fa-solid fa-fire-flame-curved"></i>,
 		}, {
-			title: 'oldest',
+			title: 'old',
 			emoji: <i className="fa-solid fa-arrow-trend-down"></i>,
 		}, {
-			title: 'newest',
+			title: 'new',
 			emoji: <i className="fa-solid fa-arrow-trend-up"></i>,
 		}
 	];
@@ -288,10 +288,10 @@ const Business = (props) => {
 										<Card.Body>
 											<Card.Title>Featured Feedbak</Card.Title>
 											<Card.Subtitle className="mb-2 text-muted">See previous features</Card.Subtitle>
-											<Row xl={1} className="g-4">
+											<Row xs={1} className="g-4">
 												{featuredPosts.length > 0 ?
 												featuredPosts.map((post, idx) =>
-													<Col key={`${post._id}_${idx}`}>
+													<Col xs={12} key={`${post._id}_${idx}`}>
 														<Card className="clickable-card" onClick={() => handleFeaturedPostClick(post)}>
 															<Card.Body>
 																<Card.Text>
