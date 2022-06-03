@@ -45,7 +45,9 @@ const Post = ({ postInfo, admin, user, handleMakeFeatured, sendScoreChange, inPr
 				<Card.Body>
 					<Row>
 						<Col md="9" sm={12}>
-							<h4>{title}&nbsp;&nbsp;{stateFeatured ? <i className="fa-solid fa-star"></i> : ''}</h4>
+							{/* <h4>{title}&nbsp;&nbsp;{stateFeatured ? <>&#127775;</> : ''}</h4> */}
+							<h4>{title}&nbsp;&nbsp;{stateFeatured ? <i class="fa-solid fa-star yellow-star"></i> : ''}</h4> 
+							
 							<p>{post}</p>
 							<p></p>
 

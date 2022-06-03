@@ -61,8 +61,6 @@ const Business = (props) => {
 		}
 	}
 
-	console.log(featuredPosts)
-
 	// set requests to server
 	const handleMakeFeatured = async (id, updateFeatured) => {
 		const postInfo = getPostById(id)
@@ -124,11 +122,11 @@ const Business = (props) => {
 			sorted = temp.sort(
 				(a, b) => b.score - a.score
 			)
-		} else if (key === 'oldest') {
+		} else if (key === 'old') {
 			sorted = temp.sort(
 				(a, b) => Date.parse(a.date) - Date.parse(b.date)
 			)
-		} else if (key === 'newest') {
+		} else if (key === 'new') {
 			sorted = temp.sort(
 				(a, b) => Date.parse(b.date) - Date.parse(a.date)
 			)
@@ -167,13 +165,13 @@ const Business = (props) => {
 	const buttons = [
 		{
 			title: 'hot',
-			emoji: <i className="fa-solid fa-fire-flame-curved"></i>,
+			emoji: <>&#128293;</>,
 		}, {
 			title: 'old',
-			emoji: <i className="fa-solid fa-arrow-trend-down"></i>,
+			emoji: <>&#128201;</>,
 		}, {
 			title: 'new',
-			emoji: <i className="fa-solid fa-arrow-trend-up"></i>,
+			emoji: <>&#128200;</>,
 		}
 	];
 
@@ -276,7 +274,7 @@ const Business = (props) => {
 											<Card.Text>
 												{businessData.about}
 											</Card.Text>
-											<Card.Link href={businessData.website} target="_blank" className="business-website"><i className="fa-solid fa-globe"></i>&nbsp;website</Card.Link>
+											<Card.Link href={businessData.website} target="_blank" className="business-website"><>&#127760;</>&nbsp;website</Card.Link>
 										</Card.Body>
 									</Card>
 								</div>
@@ -286,22 +284,24 @@ const Business = (props) => {
 								<div className="businessSide">
 									<Card>
 										<Card.Body>
-											<Card.Title>Featured Feedbak</Card.Title>
-											<Card.Subtitle className="mb-2 text-muted">See previous features</Card.Subtitle>
+											{/* <Card.Title>&#127775; Featured Feedbak &#127881;</Card.Title> */}
+											<Card.Title><i class="fa-solid fa-star yellow-star"></i> Featured Feedbak <i class="fa-solid fa-star yellow-star"></i></Card.Title>
+											<Card.Subtitle className="mb-2 text-muted">See previously featured</Card.Subtitle>
 											<Row xs={1} className="g-4">
-												{featuredPosts.length > 0 ?
-												featuredPosts.map((post, idx) =>
-													<Col xs={12} key={`${post._id}_${idx}`}>
-														<Card className="clickable-card" onClick={() => handleFeaturedPostClick(post)}>
-															<Card.Body>
-																<Card.Text>
-																	<TruncatedLine text={post.title} />
-																</Card.Text>
-															</Card.Body>
-														</Card>
-													</Col>
-												) :
-												<p>No featured posts for this business yet!</p>
+												{
+													featuredPosts.length > 0 ?
+														featuredPosts.map((post, idx) =>
+															<Col xs={12} key={`${post._id}_${idx}`}>
+																<Card className="clickable-card" onClick={() => handleFeaturedPostClick(post)}>
+																	<Card.Body>
+																		<Card.Text>
+																			<TruncatedLine text={post.title} />
+																		</Card.Text>
+																	</Card.Body>
+																</Card>
+															</Col>
+														)
+														: <p>No featured posts for this business yet!</p>
 												}
 											</Row>
 										</Card.Body>

@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700&display=swap');
 
 // body {
 //     background-color: #242424;
@@ -15,13 +17,140 @@ td,
 a,
 ul,
 li {
-	font-family: "Roboto Mono", monospace;
+	font-family: 'Open Sans', sans-serif;
 	color: #242424 !important;
 }
 
 h1 {
-	font-family: "Roboto Mono", monospace;
+	font-family: 'Open Sans', sans-serif;
 	color: rgb(135, 77, 232) !important;
+}
+
+.money-is-green {
+	color: rgb(21, 125, 23)
+}
+
+.home-header-title {
+	font-family: 'Montserrat', sans-serif !important;
+	font-weight: 600;
+	font-size: 35px;
+	padding-bottom: 10px;
+	color: rgb(46, 38, 109)
+}
+
+.home-header-subtitle {
+	font-family: 'Montserrat', sans-serif !important;
+	font-weight: 500;
+	font-size: x-large;
+	padding-bottom: 25px;
+	color: rgb(127, 80, 224)
+}
+
+.home-header-button {
+	font-family: 'Montserrat', sans-serif !important;
+	font-weight: 200 !important;
+	font-size: x-large !important;
+	border-radius: 30px !important;
+	padding: 10px !important;
+}
+
+.home-header-bottom-text {
+	font-family: 'Montserrat', sans-serif !important;
+	font-weight: 400 !important;
+	text-transform: uppercase;
+	color: rgb(163, 130, 233);
+	padding-top: 10px;
+}
+
+
+.home-header {
+	padding-bottom: 30px;
+}
+
+.how-works-title {
+	font-family: 'Montserrat', sans-serif !important;
+	font-weight: 700 !important;
+	font-size: 45px;
+}
+
+.how-works-number {
+	color: rgb(246, 244, 253) !important;
+}
+
+.number-circle {
+	border-radius: 50%;
+	width: 34px;
+	height: 34px;
+	padding: 5px;
+	background: rgb(127, 80, 224);
+	// border: 3px solid #000;
+	color: rgb(246, 244, 253);
+	text-align: center;
+	// font: 32px Arial, sans-serif;
+}
+
+.how-works-li {
+	color: rgb(127, 80, 224) !important;
+	font-family: 'Open Sans', sans-serif;
+	font-size: large;
+
+}
+
+@media only screen and (max-width: 992px) and (min-width: 576px) {
+	.home-header-title {
+		font-family: 'Montserrat', sans-serif !important;
+		font-weight: 600;
+		font-size: 30px;
+		padding-bottom: 10px;
+		color: rgb(46, 38, 109)
+	}
+
+	.home-header-subtitle {
+		font-family: 'Montserrat', sans-serif !important;
+		font-weight: 500;
+		font-size: large;
+		padding-bottom: 25px;
+		color: rgb(127, 80, 224)
+	}
+
+	.home-header-button {
+		font-family: 'Montserrat', sans-serif !important;
+		font-weight: 200 !important;
+		font-size: large !important;
+		border-radius: 30px !important;
+		padding: 10px !important;
+	}
+
+	.how-works-li {
+		text-align: center;
+	}
+}
+
+@media only screen and (max-width: 576px) {
+	.home-header-title {
+		font-family: 'Montserrat', sans-serif !important;
+		font-weight: 600;
+		font-size: 28px;
+		padding-bottom: 10px;
+		color: rgb(46, 38, 109)
+	}
+
+	.home-header-button {
+		font-family: 'Montserrat', sans-serif !important;
+		font-weight: 200 !important;
+		font-size: large !important;
+		border-radius: 30px !important;
+		padding: 10px !important;
+	}
+
+	.how-works-li {
+		text-align: center;
+	}
+
+	.how-works-title {
+		font-size: 39px;
+		font-weight: 600;
+	}
 }
 
 .text-black {
@@ -36,7 +165,7 @@ h1 {
 #searchBar {
 	border: 2px solid rgb(135, 77, 232);
 	border-radius: 30px;
-	line-height: 3;
+	line-height: 2;
 	background-color: rgba(255, 255, 255, 0.6);
 	text-align: center;
 	color: rgb(135, 77, 232);
@@ -48,6 +177,13 @@ h1 {
 
 #searchBar::placeholder {
 	color: rgb(135, 77, 232);
+}
+
+#header-design {
+	max-height: 40vh;
+	height: auto;
+	max-width: 100%;
+	width: auto;
 }
 
 .imageBox {
@@ -96,6 +232,10 @@ h1 {
 
 .imageBox:hover .see-more-container:hover {
 	background-color: rgba(255, 255, 255, 0.9);
+}
+
+.yellow-star {
+	color: rgb(253, 220, 60);
 }
 
 .businessSide {
