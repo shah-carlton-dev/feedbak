@@ -284,8 +284,8 @@ const Business = (props) => {
 								<div className="businessSide">
 									<Card>
 										<Card.Body>
-											{/* <Card.Title>&#127775; Featured Feedbak &#127881;</Card.Title> */}
-											<Card.Title><i class="fa-solid fa-star yellow-star"></i> Featured Feedbak <i class="fa-solid fa-star yellow-star"></i></Card.Title>
+											<Card.Title>&#127881; Featured Feedbak &#127881;</Card.Title>
+											{/* <Card.Title><i class="fa-solid fa-star yellow-star"></i> Featured Feedbak <i class="fa-solid fa-star yellow-star"></i></Card.Title> */}
 											<Card.Subtitle className="mb-2 text-muted">See previously featured</Card.Subtitle>
 											<Row xs={1} className="g-4">
 												{
